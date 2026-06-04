@@ -1,0 +1,5 @@
+# File-ownership manifest — PRD §9.5.1, §10.2
+# Mỗi file dẫn xuất thuộc đúng 1 spec ID. Phase 0 M1: skeleton rỗng;
+# M2 sẽ populate khi pipeline sinh code đầu tiên.
+version: 1
+ownership: {}

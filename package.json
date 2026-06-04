@@ -1,0 +1,25 @@
+{
+  "name": "keystone-framework",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Keystone — governed spec-driven production framework on Claude Code (PRD v0.8.1)",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "gray-matter": "^4.0.3",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8",
+    "yaml": "^2.6.1"
+  }
+}
