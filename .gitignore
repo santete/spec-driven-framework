@@ -8,10 +8,9 @@ coverage/
 .env.local
 
 # Runtime state (PRD Phụ lục A: generated, cấm sửa tay)
-.keystone/run-state.json
-.keystone/rework-log.json
-.keystone/diff-log.json
-.keystone/intake-report.json
-.keystone/sdd-review-thread.json
-.keystone/manual-actions.log
-.keystone/bypass.log
+.keystone/
+
+# Generated artifacts (created by pipeline S5/S6, not checked in)
+src/generated/
+tests/generated/
+specs/sdd/
