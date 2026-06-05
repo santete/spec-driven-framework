@@ -65,11 +65,22 @@ export interface GovernanceReport {
 export type ChangeOp = "added" | "modified" | "removed";
 export type ChangeClassification = "additive" | "breaking" | "cosmetic";
 
+export interface FieldDiff {
+  field: string;
+  action: "added" | "removed" | "changed";
+  old_value?: unknown;
+  new_value?: unknown;
+}
+
 export interface SpecChange {
   id: string;
   op: ChangeOp;
   spec_path: string;
   hash: string;
+  /** Per-change classification (field-level analysis) */
+  change_classification?: ChangeClassification;
+  /** Field-level diffs (only for op=modified) */
+  field_diffs?: FieldDiff[];
 }
 
 export interface ImpactReport {
@@ -83,6 +94,8 @@ export interface ImpactReport {
 export interface BaselineSpecs {
   version: 1;
   hashes: Record<string, string>;
+  /** Full frontmatter stored for field-level diff on next run */
+  frontmatter?: Record<string, Record<string, unknown>>;
 }
 
 // ── S5: SDD Design ───────────────────────────────────────────────────
