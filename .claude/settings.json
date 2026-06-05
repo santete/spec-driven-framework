@@ -1,37 +1,80 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "_comment": "Project-level Claude Code settings — gộp 3 hook events: PreToolUse (Bash), PostToolUse (Write/Edit), SessionStart. Default stack: Python. Đổi sang bash/nodejs nếu cần.",
+  "_note_python": "Dùng `python` (Windows ✓ / macOS python.org ✓ / Linux cần `python-is-python3` hoặc alias). Linux-only `python3` user đổi tay sang `python3` ở 4 dòng dưới.",
+
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": "Write|Edit|MultiEdit",
+        "_comment": "Trước mỗi Bash command — validate commit + block dangerous",
+        "matcher": "Bash",
         "hooks": [
           {
             "type": "command",
-            "command": "npx tsx .claude/hooks/pre-tool-use.ts"
+            "command": "python .claude/hooks/python/validate-commit.py"
+          },
+          {
+            "type": "command",
+            "command": "python .claude/hooks/python/block-dangerous.py"
           }
         ]
       }
     ],
+
     "PostToolUse": [
       {
-        "matcher": "Write|Edit|MultiEdit",
+        "_comment": "Sau mỗi file write/edit — scan code quality",
+        "matcher": "Edit|Write|MultiEdit",
         "hooks": [
           {
             "type": "command",
-            "command": "npx tsx .claude/hooks/post-tool-use.ts"
+            "command": "python .claude/hooks/python/post-write-check.py"
           }
         ]
       }
     ],
+
     "SessionStart": [
       {
+        "_comment": "Inject reminder + drift check mỗi session để Claude nhớ pipeline + memory + cảnh báo nếu codebase đã drift khỏi baseline",
+        "matcher": "",
         "hooks": [
           {
             "type": "command",
-            "command": "npx tsx .claude/hooks/session-start.ts"
+            "command": "echo 'Reminder: Tuân thủ pipeline trong CLAUDE.md (Phase 0→5). Phase 0 đọc project_state.yaml + schema_snapshot.yaml. Hard stops phải hỏi user. Rotate session ở 120k tokens.'"
+          },
+          {
+            "type": "command",
+            "command": "python .claude/hooks/python/drift_check.py"
+          }
+        ]
+      }
+    ],
+
+    "Stop": [
+      {
+        "_comment": "Cuối session — ghi event session_end vào .claude/metrics/events.jsonl (fail-open)",
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python .claude/hooks/python/session-end.py"
           }
         ]
       }
     ]
+  },
+
+  "statusLine": {
+    "_comment": "Hiển thị Pattern + token count (vs 120k rotate threshold) + model + schema age + cwd. Refresh sau mỗi API response. Không có statusline thì comment block này ra.",
+    "type": "command",
+    "command": "python .claude/statusline/statusline.py",
+    "padding": 0
+  },
+
+  "_alternative_stacks": {
+    "_comment": "Để dùng Bash hoặc Node, replace tất cả 'python .claude/hooks/python/X.py' bằng:",
+    "bash": "bash .claude/hooks/bash/X.sh",
+    "nodejs": "node .claude/hooks/nodejs/X.js"
   }
 }

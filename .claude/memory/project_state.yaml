@@ -1,0 +1,65 @@
+# Project State — đọc Phase 0, ghi Phase 5
+# Đây là L2 memory: thay đổi sau mỗi session
+# Tham khảo: guides/memory-system.md
+
+# ── Pattern (set bởi /classify, đừng sửa tay) ──────────────────────
+pattern: A                          # A | B | C
+classified_at: "2026-06-05"
+loc_at_classification: 2784
+next_review_threshold: 12000        # /classify lại khi LOC vượt số này
+team_size: 1
+
+# ── Identity ────────────────────────────────────────────────────────
+project_name: "keystone-framework"
+stack: "TypeScript 5.x + Node.js 22 + Vitest + Ajv"
+description: "Governed spec-driven production framework on Claude Code — 9-station pipeline (S0-S8) with intake QC, spec linting, and orchestrator"
+
+# ── Sprint / current state ─────────────────────────────────────────
+current_sprint: ""
+last_successful_task: ""
+session_count: 0
+consecutive_failures: 0
+
+# ── Completed tasks (append, archive sau 2 sprints) ────────────────
+completed_tasks: []
+# - date: "2026-04-01"
+#   task: "Implemented StripeService"
+#   files_modified: [src/payment/stripe.py, tests/test_stripe.py]
+#   pattern_phase: 5
+
+# ── Decisions (architectural, không hiển nhiên từ code) ────────────
+decisions: []
+# - date: "2026-04-01"
+#   decision: "Dùng idempotency_key cho webhook dedup"
+#   reason: "Stripe có thể gửi duplicate events"
+#   impact: "Requires column in webhook_events table"
+
+# ── Known gotchas (workaround cho hành vi bất ngờ) ─────────────────
+known_gotchas: []
+# - discovery: "additions/deletions chỉ có ở single MR endpoint"
+#   workaround: "Gọi GET /projects/:id/merge_requests/:iid riêng"
+#   files_affected: [src/extraction/merge_requests.py]
+#   discovered_at: "2026-04-02"
+
+# ── Pending tasks (carry-over giữa session) ────────────────────────
+pending_tasks: []
+# - description: "Implement retry logic cho webhook failures"
+#   priority: medium
+#   blocked_by: ""
+
+# ── Hallucination history (do `/halluc-score --save` ghi) ──────────
+# Track HRS theo session để spot trend (pattern recurring → fix root cause)
+# Keep last 50 entries (auto-truncate trong halluc-score script)
+hallucination_history: []
+# - date: "2026-04-15"
+#   session: 12
+#   hrs: 0.62
+#   dominant_signal: schema_match
+#   signals:
+#     cite_coverage: 0.6
+#     schema_match: 0.0
+#     confidence_density: 1.2
+#     static_errors: 0
+#     context_drift: 0.81
+#     failures: 1
+#     schema_staleness: 12

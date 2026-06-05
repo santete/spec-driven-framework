@@ -1,0 +1,39 @@
+{
+  "_comment": "Framework runtime thresholds. Override values here to customize statusline + hooks without forking. Loaders fall back to hardcoded defaults if this file is missing or malformed.",
+  "_doc": "See guides/context-management.md for the rationale behind each value.",
+  "rotate_threshold": 120000,
+  "recent_drop_reset": 10000,
+  "metrics_tok_warn": 90000,
+  "pattern_budgets": {
+    "A": { "working": 100000, "total": 120000 },
+    "B": { "working": 120000, "total": 140000 },
+    "C": { "working": 120000, "total": 190000 }
+  },
+  "_cost_doc": "Cost per 1M tokens (USD). Prices as of 2025-Q2. Update when model pricing changes. Set to 0 to disable cost tracking.",
+  "model_costs": {
+    "default": {
+      "input_per_1m": 15.00,
+      "cache_read_per_1m": 1.50,
+      "cache_create_per_1m": 18.75,
+      "output_per_1m": 75.00
+    },
+    "opus": {
+      "input_per_1m": 15.00,
+      "cache_read_per_1m": 1.50,
+      "cache_create_per_1m": 18.75,
+      "output_per_1m": 75.00
+    },
+    "sonnet": {
+      "input_per_1m": 3.00,
+      "cache_read_per_1m": 0.30,
+      "cache_create_per_1m": 3.75,
+      "output_per_1m": 15.00
+    },
+    "haiku": {
+      "input_per_1m": 0.80,
+      "cache_read_per_1m": 0.08,
+      "cache_create_per_1m": 1.00,
+      "output_per_1m": 4.00
+    }
+  }
+}
