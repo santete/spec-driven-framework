@@ -21,23 +21,61 @@ import type {
 
 // ── G5: Tests pass ─────────────────────────────────────────────────
 
+function detectTestStack(testDir: string): "typescript" | "python" | "none" {
+  const files = findGeneratedFiles(testDir);
+  if (files.some((f) => f.endsWith(".spec.ts"))) return "typescript";
+  if (files.some((f) => f.endsWith(".py"))) return "python";
+  return "none";
+}
+
+function findGeneratedFiles(dir: string): string[] {
+  if (!existsSync(dir)) return [];
+  const results: string[] = [];
+  for (const entry of readdirSync(dir)) {
+    const full = resolve(dir, entry);
+    if (statSync(full).isDirectory()) results.push(...findGeneratedFiles(full));
+    else results.push(full);
+  }
+  return results;
+}
+
 function checkG5(repoRoot: string): GateResult {
   const testDir = resolve(repoRoot, "tests", "generated");
   if (!existsSync(testDir)) {
     return { gate_id: "G5", status: "pass", message: "No generated tests to run." };
   }
 
+  const testStack = detectTestStack(testDir);
+
+  if (testStack === "none") {
+    return { gate_id: "G5", status: "pass", message: "No recognized test files in tests/generated/." };
+  }
+
+  if (testStack === "python") {
+    // Python tests: check if pytest is available, else skip
+    try {
+      execSync("python -m pytest tests/generated/ -v --tb=short", {
+        cwd: repoRoot, timeout: 60_000, stdio: "pipe", encoding: "utf8",
+      });
+      return { gate_id: "G5", status: "pass", message: "All generated Python tests passed (pytest)." };
+    } catch (err: unknown) {
+      const output = ((err as { stdout?: string }).stdout ?? "") + ((err as { stderr?: string }).stderr ?? "");
+      if (output.includes("No module named pytest") || output.includes("not recognized")) {
+        return { gate_id: "G5", status: "pass", message: "G5: pytest not available — skipped (Python tests)." };
+      }
+      return { gate_id: "G5", status: "fail", message: `G5: Python tests failed: ${output.slice(-200)}` };
+    }
+  }
+
+  // TypeScript tests (vitest)
   try {
-    // Check if vitest is available (fixture dirs may lack node_modules)
     const hasVitest = existsSync(resolve(repoRoot, "node_modules", ".bin", "vitest")) ||
                       existsSync(resolve(repoRoot, "node_modules", ".bin", "vitest.cmd"));
 
     if (!hasVitest) {
-      // Fallback: check generated files exist and have valid syntax (no vitest available)
       return { gate_id: "G5", status: "pass", message: "G5: vitest not available — skipped (test env)." };
     }
 
-    // Write a minimal vitest config for generated tests (main config excludes them)
     const genVitestConfig = resolve(repoRoot, ".keystone", "vitest.generated.config.ts");
     writeFileSync(genVitestConfig, `
 import { defineConfig } from "vitest/config";

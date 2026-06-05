@@ -47,7 +47,7 @@ function findGeneratedFiles(dir: string, base: string): string[] {
     const full = resolve(dir, entry);
     if (statSync(full).isDirectory()) {
       results.push(...findGeneratedFiles(full, base));
-    } else if (entry.endsWith(".ts")) {
+    } else if (entry.endsWith(".ts") || entry.endsWith(".py") || entry.endsWith(".go")) {
       results.push(full);
     }
   }
@@ -74,6 +74,7 @@ function validateGeneratedCode(
   // Check provenance headers in implementation files
   for (const absPath of srcFiles) {
     const content = readFileSync(absPath, "utf8");
+    // Provenance header: // @keystone-owner (TS) or # @keystone-owner (Python)
     const ownerMatch = content.match(/@keystone-owner\s+(\S+)/);
     if (!ownerMatch) {
       issues.push(`${absPath}: missing @keystone-owner provenance header`);
@@ -285,14 +286,165 @@ describe("Auth Service — generated from ${req.data.id}", () => {
   return { path: `tests/generated/auth/auth.spec.ts`, content };
 }
 
+// ── Python templates ──────────────────────────────────────────────
+
+function pyProvenanceHeader(specId: string, specVersion: string, sddId: string, runId: string): string {
+  return [
+    `# @keystone-owner    ${specId}`,
+    `# @spec-version      ${specVersion}`,
+    `# @sdd-source        ${sddId}`,
+    `# @generated-by      keystone@0.0.1`,
+    `# @generated-at      ${new Date().toISOString()}`,
+    `# @run-id            ${runId}`,
+    "",
+  ].join("\n");
+}
+
+function generatePythonModel(ent: SpecFile, runId: string): { path: string; content: string } {
+  const fields = (ent.data.fields ?? []) as Array<Record<string, unknown>>;
+  const header = pyProvenanceHeader(ent.data.id, ent.data.version, `SDD-DATA-${ent.data.id}`, runId);
+  const fieldLines = fields.map((f) => {
+    const name = String(f.name);
+    const type = String(f.type);
+    let pyType: string;
+    switch (type) {
+      case "uuid": pyType = "str"; break;
+      case "string": pyType = "str"; break;
+      case "integer": pyType = "int"; break;
+      case "timestamp": pyType = "str | None"; break;
+      case "enum": pyType = "str"; break;
+      case "boolean": pyType = "bool"; break;
+      default: pyType = "str";
+    }
+    const default_ = f.required === false ? " = None" : f.default !== undefined ? ` = ${JSON.stringify(f.default)}` : "";
+    return `    ${name}: ${pyType}${default_}`;
+  });
+  const className = ent.data.title.replace(/\s+/g, "");
+  return {
+    path: `src/generated/auth/models/${ent.data.id.toLowerCase().replace(/-/g, "_")}.py`,
+    content: `${header}from pydantic import BaseModel, EmailStr\n\n\nclass ${className}(BaseModel):\n${fieldLines.join("\n")}\n`,
+  };
+}
+
+function generatePythonService(req: SpecFile, runId: string): { path: string; content: string } {
+  const header = pyProvenanceHeader(req.data.id, req.data.version, `SDD-COMP-FEAT-AUTH`, runId);
+  const acs = req.data.acceptance_criteria ?? [];
+  return {
+    path: `src/generated/auth/services/auth_service.py`,
+    content: `${header}\"\"\"Auth service — generated from ${req.data.id} v${req.data.version}.\"\"\"
+from dataclasses import dataclass
+
+
+@dataclass
+class LoginResult:
+    success: bool
+    token: str | None = None
+    error: str | None = None
+    status_code: int = 200
+
+
+MAX_FAILED_ATTEMPTS = 5
+
+
+def verify_login(
+    email: str,
+    password: str,
+    user: dict | None,
+    verify_hash=lambda h, p: True,
+) -> LoginResult:
+    \"\"\"
+    Verify login credentials.
+    ${acs.map((ac) => `${ac.id}: given ${ac.given}, when ${ac.when}, then ${ac.then}`).join("\n    ")}
+    \"\"\"
+    if user is None:
+        return LoginResult(success=False, error="user_not_found", status_code=401)
+    if user.get("status") == "suspended":
+        return LoginResult(success=False, error="account_suspended", status_code=403)
+    if user.get("failed_login_count", 0) >= MAX_FAILED_ATTEMPTS:
+        return LoginResult(success=False, error="account_locked", status_code=429)
+    if not verify_hash(user.get("password_hash", ""), password):
+        return LoginResult(success=False, error="invalid_credentials", status_code=401)
+    token = f"token_{user['id']}_{hash(email)}"
+    return LoginResult(success=True, token=token, status_code=200)
+`,
+  };
+}
+
+function generatePythonTests(req: SpecFile, runId: string): { path: string; content: string } {
+  const header = pyProvenanceHeader(req.data.id, req.data.version, `SDD-COMP-FEAT-AUTH`, runId);
+  return {
+    path: `tests/generated/auth/test_auth.py`,
+    content: `${header}\"\"\"Tests for auth service — generated from ${req.data.id}.\"\"\"
+import pytest
+from src.generated.auth.services.auth_service import verify_login
+
+
+VALID_USER = {
+    "id": "u1", "email": "test@example.com", "password_hash": "hashed",
+    "status": "active", "failed_login_count": 0, "locked_until": None,
+}
+
+
+def test_valid_login_returns_token():
+    result = verify_login("test@example.com", "correct", VALID_USER, lambda h, p: True)
+    assert result.success is True
+    assert result.token is not None
+    assert result.status_code == 200
+
+
+def test_invalid_password_returns_401():
+    result = verify_login("test@example.com", "wrong", VALID_USER, lambda h, p: False)
+    assert result.success is False
+    assert result.status_code == 401
+
+
+def test_user_not_found_returns_401():
+    result = verify_login("nobody@example.com", "pwd", None)
+    assert result.success is False
+    assert result.status_code == 401
+
+
+def test_lockout_returns_429():
+    locked = {**VALID_USER, "failed_login_count": 5}
+    result = verify_login("test@example.com", "any", locked)
+    assert result.success is False
+    assert result.status_code == 429
+
+
+def test_suspended_returns_403():
+    suspended = {**VALID_USER, "status": "suspended"}
+    result = verify_login("test@example.com", "any", suspended)
+    assert result.success is False
+    assert result.status_code == 403
+`,
+  };
+}
+
+// ── Stack detection + bootstrap dispatch ─────────────────────────
+
+type StackLanguage = "typescript" | "python" | "go";
+
+function detectStack(specs: SpecFile[]): StackLanguage {
+  const project = specs.find((s) => s.data.type === "project");
+  const stack = project?.data.stack as Record<string, unknown> | undefined;
+  const lang = String(stack?.language ?? "typescript").toLowerCase();
+  if (lang.includes("python")) return "python";
+  if (lang.includes("go")) return "go";
+  return "typescript";
+}
+
 function bootstrapCode(specs: SpecFile[], affectedIds: string[], runId: string, repoRoot: string): GeneratedFile[] {
   const affectedSet = new Set(affectedIds);
   const entSpecs = specs.filter((s) => s.data.type === "entity" && affectedSet.has(s.data.id));
   const reqSpecs = specs.filter((s) => s.data.type === "requirement" && affectedSet.has(s.data.id));
   const generatedFiles: GeneratedFile[] = [];
+  const stack = detectStack(specs);
 
   for (const ent of entSpecs) {
-    for (const gen of [generateEntitySchema(ent, runId), generateEntityValidator(ent, runId)]) {
+    const generators = stack === "python"
+      ? [generatePythonModel(ent, runId)]
+      : [generateEntitySchema(ent, runId), generateEntityValidator(ent, runId)];
+    for (const gen of generators) {
       const absPath = resolve(repoRoot, gen.path);
       mkdirSync(dirname(absPath), { recursive: true });
       writeFileSync(absPath, gen.content, "utf8");
@@ -300,12 +452,12 @@ function bootstrapCode(specs: SpecFile[], affectedIds: string[], runId: string, 
     }
   }
   for (const req of reqSpecs) {
-    const service = generateService(req, runId);
+    const service = stack === "python" ? generatePythonService(req, runId) : generateService(req, runId);
     mkdirSync(dirname(resolve(repoRoot, service.path)), { recursive: true });
     writeFileSync(resolve(repoRoot, service.path), service.content, "utf8");
     generatedFiles.push({ path: service.path, owner_spec_id: req.data.id, type: "implementation" });
 
-    const tests = generateTests(req, runId);
+    const tests = stack === "python" ? generatePythonTests(req, runId) : generateTests(req, runId);
     mkdirSync(dirname(resolve(repoRoot, tests.path)), { recursive: true });
     writeFileSync(resolve(repoRoot, tests.path), tests.content, "utf8");
     generatedFiles.push({ path: tests.path, owner_spec_id: req.data.id, type: "test" });

@@ -15,7 +15,7 @@ function listSpecFiles(dir: string): string[] {
     const full = join(dir, entry);
     const st = statSync(full);
     if (st.isDirectory()) {
-      if (["openapi", "_examples", "_drafts", "sdd"].includes(entry)) continue;
+      if (["openapi", "sdd"].includes(entry) || entry.startsWith("_")) continue;
       out.push(...listSpecFiles(full));
     } else if (entry.endsWith(".md")) {
       out.push(full);
