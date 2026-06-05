@@ -1,11 +1,15 @@
 /**
- * Station registry. In M3 only S0 has real logic (wraps the existing
- * intake-qc pipeline). S1–S8 are stubs that auto-pass — their real
- * implementations land in M4 (semantic-diff, sdd-designer, codegen, …).
+ * Station registry — M4: all 9 stations have real logic.
  *
- * Each handler receives a StationContext and returns a StationOutcomeDraft.
- * The runner is responsible for stamping `started_at` / `ended_at` and
- * threading the outcome through `recordOutcome`.
+ * S0  Intake QC (IQ1–IQ8 + SR1–SR9)
+ * S1  Spec graph (relation graph, cycle detection)
+ * S2  Traceability (trace index bootstrap)
+ * S3  Governance (lint + ADR + semver)
+ * S4  Impact analysis (semantic diff + classification)
+ * S5  SDD design (template-based, auto-approved)
+ * S6  Production (template-based codegen)
+ * S7  Verification (gates G5–G8)
+ * S8  Delivery (pre-commit G0–G9 + atomic commit)
  */
 import { resolve } from "node:path";
 import { mkdirSync, writeFileSync } from "node:fs";
@@ -13,6 +17,14 @@ import type { StationId, StationVerdict } from "./types.js";
 import { loadAllSpecs } from "../spec/loader.js";
 import { loadSchemaValidator } from "../spec/validator.js";
 import { runIntakeQc } from "../intake/runner.js";
+import { s1Handler } from "../stations/s1-spec-graph.js";
+import { s2Handler } from "../stations/s2-traceability.js";
+import { s3Handler } from "../stations/s3-governance.js";
+import { s4Handler } from "../stations/s4-impact.js";
+import { s5Handler } from "../stations/s5-sdd-design.js";
+import { s6Handler } from "../stations/s6-production.js";
+import { s7Handler } from "../stations/s7-verification.js";
+import { s8Handler } from "../stations/s8-delivery.js";
 
 export interface StationContext {
   repoRoot: string;
@@ -46,21 +58,14 @@ function s0Handler(ctx: StationContext): StationOutcomeDraft {
   };
 }
 
-function stub(station: StationId): StationHandler {
-  return () => ({
-    verdict: "skipped",
-    message: `${station} stub — implementation deferred to M4`,
-  });
-}
-
 export const STATION_HANDLERS: Record<StationId, StationHandler> = {
   S0: s0Handler,
-  S1: stub("S1"),
-  S2: stub("S2"),
-  S3: stub("S3"),
-  S4: stub("S4"),
-  S5: stub("S5"),
-  S6: stub("S6"),
-  S7: stub("S7"),
-  S8: stub("S8"),
+  S1: s1Handler,
+  S2: s2Handler,
+  S3: s3Handler,
+  S4: s4Handler,
+  S5: s5Handler,
+  S6: s6Handler,
+  S7: s7Handler,
+  S8: s8Handler,
 };

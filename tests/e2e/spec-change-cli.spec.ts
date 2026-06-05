@@ -39,7 +39,8 @@ describe("CLI: /spec-change → status → resume → abort", () => {
     expect(r.exitCode).toBe(0);
     const state = JSON.parse(r.stdout);
     expect(state.status).toBe("done");
-    expect(state.history).toHaveLength(9);
+    // M4: all 9 stations should have run (pass or reject+rework)
+    expect(state.history.length).toBeGreaterThanOrEqual(9);
     expect(existsSync(join(fixture, ".keystone", "run-state.json"))).toBe(false);
   });
 
@@ -111,7 +112,8 @@ describe("CLI: /spec-change → status → resume → abort", () => {
     expect(r.exitCode).toBe(0);
     expect(r.stdout).toContain("status      : done");
     expect(r.stdout).toContain("✓ S0");
-    expect(r.stdout).toContain("· S5");
+    // M4: S5 now passes (not skipped)
+    expect(r.stdout).toContain("✓ S5");
   });
 
   it("abort marks run as aborted (file preserved)", () => {
