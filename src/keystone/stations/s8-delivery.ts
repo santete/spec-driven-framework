@@ -85,8 +85,17 @@ export function s8Handler(ctx: StationContext): StationOutcomeDraft {
     };
   }
 
-  // Atomic commit
+  // Atomic commit (skip in dry-run mode)
   let commitSha: string | null = null;
+  if (ctx.dryRun) {
+    const report: DeliveryReport = {
+      run_id: ctx.runId, classification, commit_sha: null,
+      gates_checked: gatesChecked, verdict: "pass",
+    };
+    writeFileSync(resolve(outDir, "delivery-report.json"), JSON.stringify(report, null, 2) + "\n", "utf8");
+    return { verdict: "pass", message: `S8: Dry-run — commit skipped. G0-G9 pass.`, report_path: ".keystone/delivery-report.json" };
+  }
+
   try {
     // Check if this is a git repo
     execSync("git rev-parse --git-dir", { cwd: ctx.repoRoot, stdio: "pipe" });

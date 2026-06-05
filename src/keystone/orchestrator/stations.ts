@@ -30,6 +30,8 @@ export interface StationContext {
   repoRoot: string;
   runId: string;
   specChangeId: string;
+  /** When true, S8 skips git commit (dry-run mode). */
+  dryRun?: boolean;
 }
 
 export interface StationOutcomeDraft {

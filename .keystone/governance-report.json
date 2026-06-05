@@ -1,9 +1,0 @@
-{
-  "run_id": "run-2026-06-05-092907",
-  "lint_violations": 0,
-  "lint_blockers": 0,
-  "adr_required": false,
-  "adr_present": true,
-  "semver_ok": true,
-  "verdict": "pass"
-}

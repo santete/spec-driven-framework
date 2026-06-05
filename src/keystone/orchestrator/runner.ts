@@ -20,6 +20,8 @@ export interface RunnerOptions {
    */
   maxTicks?: number;
   now?: () => Date;
+  /** When true, S8 skips git commit. */
+  dryRun?: boolean;
 }
 
 export function runTick(state: RunState, opts: RunnerOptions): RunState {
@@ -32,6 +34,7 @@ export function runTick(state: RunState, opts: RunnerOptions): RunState {
     repoRoot: opts.repoRoot,
     runId: state.run_id,
     specChangeId: state.spec_change_id,
+    dryRun: opts.dryRun,
   };
 
   let draft;

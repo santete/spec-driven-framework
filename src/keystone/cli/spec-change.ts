@@ -110,7 +110,7 @@ export function runSpecChangeCli(opts: SpecChangeCliOptions): CliResult {
       touched_specs: opts.touchedSpecs.length ? opts.touchedSpecs : undefined,
     };
     const initial = createRun({ input });
-    const finalState = runUntilHalt(initial, { repoRoot: opts.repoRoot });
+    const finalState = runUntilHalt(initial, { repoRoot: opts.repoRoot, dryRun: opts.dryRun });
 
     if (!opts.dryRun) saveRunState(opts.repoRoot, finalState);
 
