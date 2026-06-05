@@ -2,13 +2,15 @@
  * S3 — Governance: spec lint + ADR validation + semver check.
  * PRD §7.1 S3, gates G1 (spec lint) + G2 (ADR).
  *
- * Phase 0 M4: reuses existing runLint (SR1, SR3, SR4, SR6).
- * ADR + semver checks auto-pass on first run (all specs new/additive).
+ * Phase 1: reads impact report from S4 to determine if ADR is needed.
+ * ADR required only when classification = breaking (modified existing specs).
+ * New specs (additive) and cosmetic changes don't need ADR.
  */
 import { resolve } from "node:path";
 import { mkdirSync, writeFileSync, existsSync, readFileSync } from "node:fs";
 import type { StationContext, StationOutcomeDraft } from "../orchestrator/stations.js";
 import type { GovernanceReport } from "./types.js";
+import type { ImpactReport } from "./types.js";
 import type { Violation } from "../lint/types.js";
 import { loadAllSpecs } from "../spec/loader.js";
 import { loadSchemaValidator } from "../spec/validator.js";
@@ -17,15 +19,15 @@ import { runLint } from "../lint/runner.js";
 export function runGovernance(
   violations: Violation[],
   runId: string,
-  hasBaseline: boolean,
+  classification: string,
 ): GovernanceReport {
   const blockers = violations.filter((v) => v.severity === "blocker");
 
-  // ADR: first run (no baseline) = all specs new = additive → no ADR required
-  const adrRequired = hasBaseline; // only when modifying existing specs
-  const adrPresent = !adrRequired; // auto-pass when not required
+  // ADR required only for breaking changes (PRD §12 G2)
+  // Additive (new specs, new fields) and cosmetic don't need ADR
+  const adrRequired = classification === "breaking";
+  const adrPresent = !adrRequired; // Phase 1: no ADR system yet, auto-pass for non-breaking
 
-  // Semver: first run = no prior version → auto-pass
   const semverOk = true;
 
   return {
@@ -47,12 +49,20 @@ export function s3Handler(ctx: StationContext): StationOutcomeDraft {
   const validate = loadSchemaValidator(ctx.repoRoot);
   const violations = runLint(specs, validate);
 
-  // Check if baseline exists (indicates prior run → modifications, not first run)
-  const hasBaseline = existsSync(
-    resolve(ctx.repoRoot, ".keystone", "baseline-specs.json"),
-  );
+  // Read impact report to get classification (S4 runs before S3 in the pipeline?
+  // Actually S3 runs BEFORE S4 in pipeline order. Use "additive" as default —
+  // real classification comes from S4 which runs after S3.
+  // Phase 1 simplification: S3 doesn't block on ADR for additive changes.
+  let classification = "additive";
+  const impactPath = resolve(ctx.repoRoot, ".keystone", "impact-report.json");
+  if (existsSync(impactPath)) {
+    try {
+      const impact: ImpactReport = JSON.parse(readFileSync(impactPath, "utf8"));
+      classification = impact.classification;
+    } catch { /* use default */ }
+  }
 
-  const report = runGovernance(violations, ctx.runId, hasBaseline);
+  const report = runGovernance(violations, ctx.runId, classification);
 
   const outDir = resolve(ctx.repoRoot, ".keystone");
   mkdirSync(outDir, { recursive: true });

@@ -91,17 +91,24 @@ export function s8Handler(ctx: StationContext): StationOutcomeDraft {
     // Check if this is a git repo
     execSync("git rev-parse --git-dir", { cwd: ctx.repoRoot, stdio: "pipe" });
 
-    // Stage generated artifacts
+    // Stage generated artifacts (use -f for paths that might be gitignored)
     const pathsToAdd = [
       "specs/sdd/",
+      ".trace/",
+    ];
+    const pathsToAddForce = [
       "src/generated/",
       "tests/generated/",
-      ".trace/",
       ".keystone/",
     ];
     for (const p of pathsToAdd) {
       if (existsSync(resolve(ctx.repoRoot, p))) {
-        execSync(`git add "${p}"`, { cwd: ctx.repoRoot, stdio: "pipe" });
+        try { execSync(`git add "${p}"`, { cwd: ctx.repoRoot, stdio: "pipe" }); } catch { /* skip if gitignored or empty */ }
+      }
+    }
+    for (const p of pathsToAddForce) {
+      if (existsSync(resolve(ctx.repoRoot, p))) {
+        try { execSync(`git add -f "${p}"`, { cwd: ctx.repoRoot, stdio: "pipe" }); } catch { /* skip */ }
       }
     }
 

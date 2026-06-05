@@ -10,7 +10,7 @@ coverage/
 # Runtime state (PRD Phụ lục A: generated, cấm sửa tay)
 .keystone/
 
-# Generated artifacts (created by pipeline S5/S6, not checked in)
+# Generated code (created by pipeline S6, not checked in — regenerated per run)
 src/generated/
 tests/generated/
-specs/sdd/
+# Note: specs/sdd/ and .trace/ ARE committed (deliverables tracked by S8)

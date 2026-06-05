@@ -3,7 +3,7 @@ import { join, relative, sep } from "node:path";
 import matter from "gray-matter";
 import type { SpecFile, SpecFrontmatter } from "../types.js";
 
-const SKIP_DIRS = new Set(["openapi", "_examples", "node_modules", ".git"]);
+const SKIP_DIRS = new Set(["openapi", "_examples", "node_modules", ".git", "sdd"]);
 
 /** Recursively list all *.md spec files under a directory. */
 export function listSpecFiles(dir: string): string[] {
