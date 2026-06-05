@@ -1,0 +1,58 @@
+{
+  "run_id": "run-2026-06-05-090859",
+  "classification": "additive",
+  "changes": [
+    {
+      "id": "ENT-USER",
+      "op": "added",
+      "spec_path": "specs/auth/ENT-USER.md",
+      "hash": "0d15f439112d071c",
+      "change_classification": "additive"
+    },
+    {
+      "id": "FEAT-AUTH",
+      "op": "added",
+      "spec_path": "specs/auth/FEAT-AUTH.md",
+      "hash": "a23149ef03f1113e",
+      "change_classification": "additive"
+    },
+    {
+      "id": "REQ-AUTH-001",
+      "op": "added",
+      "spec_path": "specs/auth/REQ-AUTH-001.md",
+      "hash": "2c316a039cbbb7fd",
+      "change_classification": "additive"
+    },
+    {
+      "id": "PROJECT-KEYSTONE-DEMO",
+      "op": "added",
+      "spec_path": "specs/project.md",
+      "hash": "618584a94787e5a3",
+      "change_classification": "additive"
+    }
+  ],
+  "affected_ids": [
+    "ENT-USER",
+    "FEAT-AUTH",
+    "REQ-AUTH-001",
+    "PROJECT-KEYSTONE-DEMO"
+  ],
+  "required_actions": [
+    {
+      "id": "ENT-USER",
+      "action": "generate"
+    },
+    {
+      "id": "FEAT-AUTH",
+      "action": "generate"
+    },
+    {
+      "id": "REQ-AUTH-001",
+      "action": "generate"
+    },
+    {
+      "id": "PROJECT-KEYSTONE-DEMO",
+      "action": "generate"
+    }
+  ]
+}

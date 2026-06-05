@@ -1,0 +1,120 @@
+{
+  "$schema": ".keystone/run-state-schema.json",
+  "run_id": "run-2026-06-05-090859",
+  "spec_change_id": "SC-2026-06-05-001",
+  "started_at": "2026-06-05T09:08:59.535Z",
+  "updated_at": "2026-06-05T09:11:06.965Z",
+  "current_station": "S6",
+  "status": "blocked",
+  "input": {
+    "title": "inital auth login"
+  },
+  "history": [
+    {
+      "station": "S0",
+      "started_at": "2026-06-05T09:08:59.537Z",
+      "ended_at": "2026-06-05T09:08:59.622Z",
+      "verdict": "pass",
+      "message": "Tất cả 4 spec đạt S0 intake QC.",
+      "report_path": ".keystone/intake-report.json"
+    },
+    {
+      "station": "S1",
+      "started_at": "2026-06-05T09:08:59.622Z",
+      "ended_at": "2026-06-05T09:08:59.626Z",
+      "verdict": "pass",
+      "message": "S1: 4 specs, 3 relations, 0 cycles.",
+      "report_path": ".keystone/spec-graph.json"
+    },
+    {
+      "station": "S2",
+      "started_at": "2026-06-05T09:08:59.626Z",
+      "ended_at": "2026-06-05T09:08:59.631Z",
+      "verdict": "pass",
+      "message": "S2: 4 created, 0 updated, 4 total trace entries.",
+      "report_path": ".keystone/trace-report.json"
+    },
+    {
+      "station": "S3",
+      "started_at": "2026-06-05T09:08:59.631Z",
+      "ended_at": "2026-06-05T09:08:59.634Z",
+      "verdict": "pass",
+      "message": "S3: 0 lint items, 0 blockers. ADR/semver OK.",
+      "report_path": ".keystone/governance-report.json"
+    },
+    {
+      "station": "S4",
+      "started_at": "2026-06-05T09:08:59.634Z",
+      "ended_at": "2026-06-05T09:08:59.646Z",
+      "verdict": "pass",
+      "message": "S4: 4 change(s), classification=additive, 4 affected.",
+      "report_path": ".keystone/impact-report.json"
+    },
+    {
+      "station": "S5",
+      "started_at": "2026-06-05T09:08:59.646Z",
+      "ended_at": "2026-06-05T09:08:59.646Z",
+      "verdict": "blocked",
+      "message": "S5: Awaiting SDD generation. Launch sdd-designer subagent, then /keystone:resume. Issues: specs/sdd/ directory does not exist"
+    },
+    {
+      "station": "S5",
+      "started_at": "2026-06-05T09:11:06.935Z",
+      "ended_at": "2026-06-05T09:11:06.964Z",
+      "verdict": "pass",
+      "message": "S5: 2 SDD(s) validated and approved.",
+      "report_path": ".keystone/sdd-report.json"
+    },
+    {
+      "station": "S6",
+      "started_at": "2026-06-05T09:11:06.964Z",
+      "ended_at": "2026-06-05T09:11:06.965Z",
+      "verdict": "blocked",
+      "message": "S6: Awaiting code generation. Launch implementer + test-author subagents, then /keystone:resume. No implementation files in src/generated/"
+    }
+  ],
+  "rework": {
+    "S0": {
+      "count": 0,
+      "k_self": 5
+    },
+    "S1": {
+      "count": 0,
+      "k_self": 5
+    },
+    "S2": {
+      "count": 0,
+      "k_self": 5
+    },
+    "S3": {
+      "count": 0,
+      "k_self": 5
+    },
+    "S4": {
+      "count": 0,
+      "k_self": 5
+    },
+    "S5": {
+      "count": 0,
+      "k_self": 5
+    },
+    "S6": {
+      "count": 0,
+      "k_self": 5
+    },
+    "S7": {
+      "count": 0,
+      "k_self": 5
+    },
+    "S8": {
+      "count": 0,
+      "k_self": 5
+    }
+  },
+  "rework_global": {
+    "count": 0,
+    "k_global": 5
+  },
+  "last_report_path": ".keystone/sdd-report.json",
+  "blocked_reason": "S6: Awaiting code generation. Launch implementer + test-author subagents, then /keystone:resume. No implementation files in src/generated/"
+}

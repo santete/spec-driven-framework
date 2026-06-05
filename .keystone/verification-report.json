@@ -1,0 +1,26 @@
+{
+  "run_id": "run-2026-06-05-090859",
+  "gates": [
+    {
+      "gate_id": "G5",
+      "status": "pass",
+      "message": "All generated tests passed."
+    },
+    {
+      "gate_id": "G6",
+      "status": "pass",
+      "message": "Trace index and ownership consistent."
+    },
+    {
+      "gate_id": "G7",
+      "status": "pass",
+      "message": "No spec-code drift detected."
+    },
+    {
+      "gate_id": "G8",
+      "status": "pass",
+      "message": "G8: 20000 tokens (~$0.16). Budget OK."
+    }
+  ],
+  "verdict": "pass"
+}

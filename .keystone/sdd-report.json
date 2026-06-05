@@ -1,0 +1,23 @@
+{
+  "run_id": "run-2026-06-05-090859",
+  "sdds": [
+    {
+      "id": "SDD-COMP-FEAT-AUTH",
+      "spec_ids_covered": [
+        "FEAT-AUTH",
+        "REQ-AUTH-001"
+      ],
+      "file_path": "specs/sdd/SDD-COMP-FEAT-AUTH.md",
+      "status": "approved"
+    },
+    {
+      "id": "SDD-DATA-ENT-USER",
+      "spec_ids_covered": [
+        "ENT-USER"
+      ],
+      "file_path": "specs/sdd/SDD-DATA-ENT-USER.md",
+      "status": "approved"
+    }
+  ],
+  "verdict": "pass"
+}

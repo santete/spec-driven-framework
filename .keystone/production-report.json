@@ -1,0 +1,26 @@
+{
+  "run_id": "run-2026-06-05-090859",
+  "generated_files": [
+    {
+      "path": "src/generated/auth/entities/user.schema.ts",
+      "owner_spec_id": "ENT-USER",
+      "type": "implementation"
+    },
+    {
+      "path": "src/generated/auth/entities/user.validator.ts",
+      "owner_spec_id": "ENT-USER",
+      "type": "implementation"
+    },
+    {
+      "path": "src/generated/auth/services/auth.service.ts",
+      "owner_spec_id": "REQ-AUTH-001",
+      "type": "implementation"
+    },
+    {
+      "path": "tests/generated/auth/auth.spec.ts",
+      "owner_spec_id": "REQ-AUTH-001",
+      "type": "test"
+    }
+  ],
+  "verdict": "pass"
+}

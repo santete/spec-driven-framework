@@ -1,0 +1,185 @@
+{
+  "version": 1,
+  "hashes": {
+    "ENT-USER": "0d15f439112d071c",
+    "FEAT-AUTH": "a23149ef03f1113e",
+    "REQ-AUTH-001": "2c316a039cbbb7fd",
+    "PROJECT-KEYSTONE-DEMO": "618584a94787e5a3"
+  },
+  "frontmatter": {
+    "ENT-USER": {
+      "id": "ENT-USER",
+      "type": "entity",
+      "title": "User",
+      "version": "2.0.0",
+      "status": "approved",
+      "owner": "team-identity",
+      "created": "2026-05-01",
+      "updated": "2026-06-04",
+      "tags": [
+        "auth",
+        "identity"
+      ],
+      "fields": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "required": true,
+          "pk": true
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "required": true,
+          "unique": true,
+          "format": "email"
+        },
+        {
+          "name": "status",
+          "type": "enum",
+          "values": [
+            "active",
+            "suspended"
+          ],
+          "required": true
+        },
+        {
+          "name": "password_hash",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "failed_login_count",
+          "type": "integer",
+          "required": true,
+          "default": 0
+        },
+        {
+          "name": "locked_until",
+          "type": "timestamp",
+          "required": false
+        }
+      ],
+      "invariants": [
+        "email là duy nhất toàn hệ thống",
+        "status không thể chuyển từ suspended sang active nếu thiếu admin approval",
+        "failed_login_count reset về 0 sau login thành công"
+      ]
+    },
+    "FEAT-AUTH": {
+      "id": "FEAT-AUTH",
+      "type": "feature",
+      "title": "Xác thực người dùng",
+      "version": "1.0.0",
+      "status": "approved",
+      "owner": "team-identity",
+      "created": "2026-05-01",
+      "updated": "2026-06-04",
+      "tags": [
+        "auth"
+      ],
+      "relations": {
+        "depends_on": [
+          "ENT-USER"
+        ]
+      }
+    },
+    "REQ-AUTH-001": {
+      "id": "REQ-AUTH-001",
+      "type": "requirement",
+      "title": "Đăng nhập bằng email + mật khẩu",
+      "version": "1.2.0",
+      "status": "approved",
+      "owner": "team-identity",
+      "created": "2026-05-01",
+      "updated": "2026-06-04",
+      "tags": [
+        "auth",
+        "security"
+      ],
+      "priority": "must",
+      "relations": {
+        "refines": [
+          "FEAT-AUTH"
+        ],
+        "depends_on": [
+          "ENT-USER"
+        ]
+      },
+      "acceptance_criteria": [
+        {
+          "id": "AC-AUTH-001-01",
+          "given": "user đã đăng ký với email hợp lệ",
+          "when": "submit đúng email + mật khẩu",
+          "then": "trả về session token hợp lệ, status 200"
+        },
+        {
+          "id": "AC-AUTH-001-02",
+          "given": "user nhập sai mật khẩu 5 lần",
+          "when": "submit lần thứ 6",
+          "then": "khóa tài khoản tạm thời, status 429"
+        }
+      ]
+    },
+    "PROJECT-KEYSTONE-DEMO": {
+      "id": "PROJECT-KEYSTONE-DEMO",
+      "type": "project",
+      "title": "Keystone Phase 1 demo service",
+      "version": "1.0.0",
+      "status": "approved",
+      "owner": "team-keystone",
+      "created": "2026-06-04",
+      "updated": "2026-06-04",
+      "tags": [
+        "phase-0",
+        "demo"
+      ],
+      "profile": "web-service-ts-fastify",
+      "profile_source": "catalog",
+      "stack": {
+        "language": "typescript",
+        "runtime": "node22",
+        "http": "fastify",
+        "validation": "zod",
+        "orm": "drizzle",
+        "db": {
+          "dev": "sqlite",
+          "prod": "postgres"
+        },
+        "test": "vitest",
+        "adversarial_test": "fast-check",
+        "package_manager": "pnpm"
+      },
+      "constraints": {
+        "cloud": "aws",
+        "region": "ap-southeast-1",
+        "budget_tier": "lean",
+        "team_size": 3
+      },
+      "non_functional_defaults": {
+        "latency_p95_ms": 300,
+        "availability": 99.9,
+        "rps_target": 1000
+      },
+      "codegen_conventions": {
+        "module_layout": "feature-folder",
+        "test_layout": "alongside",
+        "error_format": "rfc7807"
+      },
+      "feedback_style": "detailed",
+      "rework": {
+        "k_self_default": 1,
+        "k_self_overrides": {
+          "S5": 2,
+          "S6": 2,
+          "S7": 0
+        },
+        "k_global": 5,
+        "k_customer_reject_s5": 3,
+        "k_customer_retry_s0": 5,
+        "on_global_exceeded": "incident",
+        "rework_token_budget_pct": 30
+      }
+    }
+  }
+}

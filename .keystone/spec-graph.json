@@ -1,0 +1,51 @@
+{
+  "nodes": [
+    {
+      "id": "ENT-USER",
+      "type": "entity",
+      "version": "2.0.0",
+      "specPath": "specs/auth/ENT-USER.md"
+    },
+    {
+      "id": "FEAT-AUTH",
+      "type": "feature",
+      "version": "1.0.0",
+      "specPath": "specs/auth/FEAT-AUTH.md"
+    },
+    {
+      "id": "REQ-AUTH-001",
+      "type": "requirement",
+      "version": "1.2.0",
+      "specPath": "specs/auth/REQ-AUTH-001.md"
+    },
+    {
+      "id": "PROJECT-KEYSTONE-DEMO",
+      "type": "project",
+      "version": "1.0.0",
+      "specPath": "specs/project.md"
+    }
+  ],
+  "edges": [
+    {
+      "from": "FEAT-AUTH",
+      "to": "ENT-USER",
+      "relation": "depends_on"
+    },
+    {
+      "from": "REQ-AUTH-001",
+      "to": "FEAT-AUTH",
+      "relation": "refines"
+    },
+    {
+      "from": "REQ-AUTH-001",
+      "to": "ENT-USER",
+      "relation": "depends_on"
+    }
+  ],
+  "topologicalOrder": [
+    "REQ-AUTH-001",
+    "PROJECT-KEYSTONE-DEMO",
+    "FEAT-AUTH",
+    "ENT-USER"
+  ]
+}

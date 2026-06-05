@@ -1,0 +1,9 @@
+{
+  "$schema": ".keystone/intake-report-schema.json",
+  "run_id": "run-2026-06-05-090859",
+  "verdict": "pass",
+  "summary": "Tất cả 4 spec đạt S0 intake QC.",
+  "total_items": 0,
+  "items": [],
+  "next_action": "Pipeline có thể tiến vào S1 (Spec layer)."
+}
