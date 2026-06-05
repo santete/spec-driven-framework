@@ -57,7 +57,7 @@ describe("S6 — Production", () => {
     cleanupPaths.push(resolve(ROOT, "tests/generated"));
 
     expect(result.verdict).toBe("pass");
-    expect(result.message).toContain("generated");
+    expect(result.message).toContain("file(s)");
 
     // Check files exist
     expect(existsSync(resolve(ROOT, "src/generated/auth/entities/ent_user.schema.ts"))).toBe(true);
