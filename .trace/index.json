@@ -1,0 +1,325 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "spec_id": "FEAT-ADMIN",
+      "spec_path": "specs/admin/FEAT-ADMIN.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "9335bec1b5a87bef",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "REQ-ADMIN-001",
+      "spec_path": "specs/admin/REQ-ADMIN-001.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "75b4afdb7735b92c",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "REQ-ADMIN-002",
+      "spec_path": "specs/admin/REQ-ADMIN-002.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "04cf535045c7e53a",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "REQ-ADMIN-003",
+      "spec_path": "specs/admin/REQ-ADMIN-003.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "b30c26d4ea29936c",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "REQ-ADMIN-004",
+      "spec_path": "specs/admin/REQ-ADMIN-004.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "be3b73cf4f15c40d",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "ENT-SESSION",
+      "spec_path": "specs/auth/ENT-SESSION.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "c9a9fd5418cb9c9e",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "ENT-USER",
+      "spec_path": "specs/auth/ENT-USER.md",
+      "spec_version": "2.0.0",
+      "spec_content_hash": "0d15f439112d071c",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "FEAT-AUTH",
+      "spec_path": "specs/auth/FEAT-AUTH.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "a23149ef03f1113e",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "NFR-AUTH-001",
+      "spec_path": "specs/auth/NFR-AUTH-001.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "affb87ec5b14b36a",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "REQ-AUTH-001",
+      "spec_path": "specs/auth/REQ-AUTH-001.md",
+      "spec_version": "1.2.0",
+      "spec_content_hash": "2c316a039cbbb7fd",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "REQ-AUTH-002",
+      "spec_path": "specs/auth/REQ-AUTH-002.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "9c201cc36e3af91b",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "REQ-AUTH-003",
+      "spec_path": "specs/auth/REQ-AUTH-003.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "0773cf26b9ad82c1",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "FEAT-HEALTH",
+      "spec_path": "specs/infra/FEAT-HEALTH.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "a306d88c628b9196",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "REQ-HEALTH-001",
+      "spec_path": "specs/infra/REQ-HEALTH-001.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "5a376e12235effa9",
+      "implementations": [
+        "src/generated/infra/schemas/health.schema.ts",
+        "src/generated/infra/services/health.service.ts"
+      ],
+      "tests": [
+        "tests/generated/infra/health.spec.ts"
+      ],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "FEAT-NOTIF",
+      "spec_path": "specs/notification/FEAT-NOTIF.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "278bdbcd37bfa3e3",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "REQ-NOTIF-001",
+      "spec_path": "specs/notification/REQ-NOTIF-001.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "c7decccbabbefdc0",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "REQ-NOTIF-002",
+      "spec_path": "specs/notification/REQ-NOTIF-002.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "b70596e1808e949f",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "REQ-NOTIF-003",
+      "spec_path": "specs/notification/REQ-NOTIF-003.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "46939f304ff3b3a1",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "ENT-ORDER",
+      "spec_path": "specs/order/ENT-ORDER.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "ee844995fdd9dd0a",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "FEAT-ORDER",
+      "spec_path": "specs/order/FEAT-ORDER.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "fc8e8bd7b0e82e22",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "REQ-ORDER-001",
+      "spec_path": "specs/order/REQ-ORDER-001.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "510ad3f5f9796a87",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "REQ-ORDER-002",
+      "spec_path": "specs/order/REQ-ORDER-002.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "4dcbc6b3ab503b69",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "REQ-ORDER-003",
+      "spec_path": "specs/order/REQ-ORDER-003.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "f8d39c2f2bdfa872",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "REQ-ORDER-004",
+      "spec_path": "specs/order/REQ-ORDER-004.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "6d49e1daed3fbd95",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "REQ-ORDER-005",
+      "spec_path": "specs/order/REQ-ORDER-005.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "58355e5fddb379e7",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "PROJECT-KEYSTONE-DEMO",
+      "spec_path": "specs/project.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "618584a94787e5a3",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "FEAT-REG",
+      "spec_path": "specs/registration/FEAT-REG.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "d0e4c2f9d41b123f",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "REQ-REG-001",
+      "spec_path": "specs/registration/REQ-REG-001.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "d398f904fa418986",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "FEAT-SEARCH",
+      "spec_path": "specs/search/FEAT-SEARCH.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "b9d7821484b7aaaa",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "REQ-SEARCH-001",
+      "spec_path": "specs/search/REQ-SEARCH-001.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "8f1b499cc0fdb687",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "REQ-SEARCH-002",
+      "spec_path": "specs/search/REQ-SEARCH-002.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "05a27fab92c6ae16",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "REQ-SEARCH-003",
+      "spec_path": "specs/search/REQ-SEARCH-003.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "ac819256ffb1b34a",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "FEAT-USER",
+      "spec_path": "specs/user/FEAT-USER.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "4c6c757b0ab35d42",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "REQ-USER-001",
+      "spec_path": "specs/user/REQ-USER-001.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "0150984cf3ba0620",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    },
+    {
+      "spec_id": "REQ-USER-002",
+      "spec_path": "specs/user/REQ-USER-002.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "209816f27d466b96",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-120340"
+    }
+  ]
+}

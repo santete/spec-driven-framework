@@ -1,0 +1,430 @@
+{
+  "run_id": "run-2026-06-05-120340",
+  "classification": "additive",
+  "changes": [
+    {
+      "id": "FEAT-ADMIN",
+      "op": "added",
+      "spec_path": "specs/admin/FEAT-ADMIN.md",
+      "hash": "9335bec1b5a87bef",
+      "change_classification": "additive"
+    },
+    {
+      "id": "REQ-ADMIN-001",
+      "op": "added",
+      "spec_path": "specs/admin/REQ-ADMIN-001.md",
+      "hash": "75b4afdb7735b92c",
+      "change_classification": "additive"
+    },
+    {
+      "id": "REQ-ADMIN-002",
+      "op": "added",
+      "spec_path": "specs/admin/REQ-ADMIN-002.md",
+      "hash": "04cf535045c7e53a",
+      "change_classification": "additive"
+    },
+    {
+      "id": "REQ-ADMIN-003",
+      "op": "added",
+      "spec_path": "specs/admin/REQ-ADMIN-003.md",
+      "hash": "b30c26d4ea29936c",
+      "change_classification": "additive"
+    },
+    {
+      "id": "REQ-ADMIN-004",
+      "op": "added",
+      "spec_path": "specs/admin/REQ-ADMIN-004.md",
+      "hash": "be3b73cf4f15c40d",
+      "change_classification": "additive"
+    },
+    {
+      "id": "ENT-SESSION",
+      "op": "added",
+      "spec_path": "specs/auth/ENT-SESSION.md",
+      "hash": "c9a9fd5418cb9c9e",
+      "change_classification": "additive"
+    },
+    {
+      "id": "ENT-USER",
+      "op": "added",
+      "spec_path": "specs/auth/ENT-USER.md",
+      "hash": "0d15f439112d071c",
+      "change_classification": "additive"
+    },
+    {
+      "id": "FEAT-AUTH",
+      "op": "added",
+      "spec_path": "specs/auth/FEAT-AUTH.md",
+      "hash": "a23149ef03f1113e",
+      "change_classification": "additive"
+    },
+    {
+      "id": "NFR-AUTH-001",
+      "op": "added",
+      "spec_path": "specs/auth/NFR-AUTH-001.md",
+      "hash": "affb87ec5b14b36a",
+      "change_classification": "additive"
+    },
+    {
+      "id": "REQ-AUTH-001",
+      "op": "added",
+      "spec_path": "specs/auth/REQ-AUTH-001.md",
+      "hash": "2c316a039cbbb7fd",
+      "change_classification": "additive"
+    },
+    {
+      "id": "REQ-AUTH-002",
+      "op": "added",
+      "spec_path": "specs/auth/REQ-AUTH-002.md",
+      "hash": "9c201cc36e3af91b",
+      "change_classification": "additive"
+    },
+    {
+      "id": "REQ-AUTH-003",
+      "op": "added",
+      "spec_path": "specs/auth/REQ-AUTH-003.md",
+      "hash": "0773cf26b9ad82c1",
+      "change_classification": "additive"
+    },
+    {
+      "id": "FEAT-HEALTH",
+      "op": "added",
+      "spec_path": "specs/infra/FEAT-HEALTH.md",
+      "hash": "a306d88c628b9196",
+      "change_classification": "additive"
+    },
+    {
+      "id": "REQ-HEALTH-001",
+      "op": "added",
+      "spec_path": "specs/infra/REQ-HEALTH-001.md",
+      "hash": "5a376e12235effa9",
+      "change_classification": "additive"
+    },
+    {
+      "id": "FEAT-NOTIF",
+      "op": "added",
+      "spec_path": "specs/notification/FEAT-NOTIF.md",
+      "hash": "278bdbcd37bfa3e3",
+      "change_classification": "additive"
+    },
+    {
+      "id": "REQ-NOTIF-001",
+      "op": "added",
+      "spec_path": "specs/notification/REQ-NOTIF-001.md",
+      "hash": "c7decccbabbefdc0",
+      "change_classification": "additive"
+    },
+    {
+      "id": "REQ-NOTIF-002",
+      "op": "added",
+      "spec_path": "specs/notification/REQ-NOTIF-002.md",
+      "hash": "b70596e1808e949f",
+      "change_classification": "additive"
+    },
+    {
+      "id": "REQ-NOTIF-003",
+      "op": "added",
+      "spec_path": "specs/notification/REQ-NOTIF-003.md",
+      "hash": "46939f304ff3b3a1",
+      "change_classification": "additive"
+    },
+    {
+      "id": "ENT-ORDER",
+      "op": "added",
+      "spec_path": "specs/order/ENT-ORDER.md",
+      "hash": "ee844995fdd9dd0a",
+      "change_classification": "additive"
+    },
+    {
+      "id": "FEAT-ORDER",
+      "op": "added",
+      "spec_path": "specs/order/FEAT-ORDER.md",
+      "hash": "fc8e8bd7b0e82e22",
+      "change_classification": "additive"
+    },
+    {
+      "id": "REQ-ORDER-001",
+      "op": "added",
+      "spec_path": "specs/order/REQ-ORDER-001.md",
+      "hash": "510ad3f5f9796a87",
+      "change_classification": "additive"
+    },
+    {
+      "id": "REQ-ORDER-002",
+      "op": "added",
+      "spec_path": "specs/order/REQ-ORDER-002.md",
+      "hash": "4dcbc6b3ab503b69",
+      "change_classification": "additive"
+    },
+    {
+      "id": "REQ-ORDER-003",
+      "op": "added",
+      "spec_path": "specs/order/REQ-ORDER-003.md",
+      "hash": "f8d39c2f2bdfa872",
+      "change_classification": "additive"
+    },
+    {
+      "id": "REQ-ORDER-004",
+      "op": "added",
+      "spec_path": "specs/order/REQ-ORDER-004.md",
+      "hash": "6d49e1daed3fbd95",
+      "change_classification": "additive"
+    },
+    {
+      "id": "REQ-ORDER-005",
+      "op": "added",
+      "spec_path": "specs/order/REQ-ORDER-005.md",
+      "hash": "58355e5fddb379e7",
+      "change_classification": "additive"
+    },
+    {
+      "id": "PROJECT-KEYSTONE-DEMO",
+      "op": "added",
+      "spec_path": "specs/project.md",
+      "hash": "618584a94787e5a3",
+      "change_classification": "additive"
+    },
+    {
+      "id": "FEAT-REG",
+      "op": "added",
+      "spec_path": "specs/registration/FEAT-REG.md",
+      "hash": "d0e4c2f9d41b123f",
+      "change_classification": "additive"
+    },
+    {
+      "id": "REQ-REG-001",
+      "op": "added",
+      "spec_path": "specs/registration/REQ-REG-001.md",
+      "hash": "d398f904fa418986",
+      "change_classification": "additive"
+    },
+    {
+      "id": "FEAT-SEARCH",
+      "op": "added",
+      "spec_path": "specs/search/FEAT-SEARCH.md",
+      "hash": "b9d7821484b7aaaa",
+      "change_classification": "additive"
+    },
+    {
+      "id": "REQ-SEARCH-001",
+      "op": "added",
+      "spec_path": "specs/search/REQ-SEARCH-001.md",
+      "hash": "8f1b499cc0fdb687",
+      "change_classification": "additive"
+    },
+    {
+      "id": "REQ-SEARCH-002",
+      "op": "added",
+      "spec_path": "specs/search/REQ-SEARCH-002.md",
+      "hash": "05a27fab92c6ae16",
+      "change_classification": "additive"
+    },
+    {
+      "id": "REQ-SEARCH-003",
+      "op": "added",
+      "spec_path": "specs/search/REQ-SEARCH-003.md",
+      "hash": "ac819256ffb1b34a",
+      "change_classification": "additive"
+    },
+    {
+      "id": "FEAT-USER",
+      "op": "added",
+      "spec_path": "specs/user/FEAT-USER.md",
+      "hash": "4c6c757b0ab35d42",
+      "change_classification": "additive"
+    },
+    {
+      "id": "REQ-USER-001",
+      "op": "added",
+      "spec_path": "specs/user/REQ-USER-001.md",
+      "hash": "0150984cf3ba0620",
+      "change_classification": "additive"
+    },
+    {
+      "id": "REQ-USER-002",
+      "op": "added",
+      "spec_path": "specs/user/REQ-USER-002.md",
+      "hash": "209816f27d466b96",
+      "change_classification": "additive"
+    }
+  ],
+  "affected_ids": [
+    "FEAT-ADMIN",
+    "REQ-ADMIN-001",
+    "REQ-ADMIN-002",
+    "REQ-ADMIN-003",
+    "REQ-ADMIN-004",
+    "ENT-SESSION",
+    "ENT-USER",
+    "FEAT-AUTH",
+    "NFR-AUTH-001",
+    "REQ-AUTH-001",
+    "REQ-AUTH-002",
+    "REQ-AUTH-003",
+    "FEAT-HEALTH",
+    "REQ-HEALTH-001",
+    "FEAT-NOTIF",
+    "REQ-NOTIF-001",
+    "REQ-NOTIF-002",
+    "REQ-NOTIF-003",
+    "ENT-ORDER",
+    "FEAT-ORDER",
+    "REQ-ORDER-001",
+    "REQ-ORDER-002",
+    "REQ-ORDER-003",
+    "REQ-ORDER-004",
+    "REQ-ORDER-005",
+    "PROJECT-KEYSTONE-DEMO",
+    "FEAT-REG",
+    "REQ-REG-001",
+    "FEAT-SEARCH",
+    "REQ-SEARCH-001",
+    "REQ-SEARCH-002",
+    "REQ-SEARCH-003",
+    "FEAT-USER",
+    "REQ-USER-001",
+    "REQ-USER-002"
+  ],
+  "required_actions": [
+    {
+      "id": "FEAT-ADMIN",
+      "action": "generate"
+    },
+    {
+      "id": "REQ-ADMIN-001",
+      "action": "generate"
+    },
+    {
+      "id": "REQ-ADMIN-002",
+      "action": "generate"
+    },
+    {
+      "id": "REQ-ADMIN-003",
+      "action": "generate"
+    },
+    {
+      "id": "REQ-ADMIN-004",
+      "action": "generate"
+    },
+    {
+      "id": "ENT-SESSION",
+      "action": "generate"
+    },
+    {
+      "id": "ENT-USER",
+      "action": "generate"
+    },
+    {
+      "id": "FEAT-AUTH",
+      "action": "generate"
+    },
+    {
+      "id": "NFR-AUTH-001",
+      "action": "generate"
+    },
+    {
+      "id": "REQ-AUTH-001",
+      "action": "generate"
+    },
+    {
+      "id": "REQ-AUTH-002",
+      "action": "generate"
+    },
+    {
+      "id": "REQ-AUTH-003",
+      "action": "generate"
+    },
+    {
+      "id": "FEAT-HEALTH",
+      "action": "generate"
+    },
+    {
+      "id": "REQ-HEALTH-001",
+      "action": "generate"
+    },
+    {
+      "id": "FEAT-NOTIF",
+      "action": "generate"
+    },
+    {
+      "id": "REQ-NOTIF-001",
+      "action": "generate"
+    },
+    {
+      "id": "REQ-NOTIF-002",
+      "action": "generate"
+    },
+    {
+      "id": "REQ-NOTIF-003",
+      "action": "generate"
+    },
+    {
+      "id": "ENT-ORDER",
+      "action": "generate"
+    },
+    {
+      "id": "FEAT-ORDER",
+      "action": "generate"
+    },
+    {
+      "id": "REQ-ORDER-001",
+      "action": "generate"
+    },
+    {
+      "id": "REQ-ORDER-002",
+      "action": "generate"
+    },
+    {
+      "id": "REQ-ORDER-003",
+      "action": "generate"
+    },
+    {
+      "id": "REQ-ORDER-004",
+      "action": "generate"
+    },
+    {
+      "id": "REQ-ORDER-005",
+      "action": "generate"
+    },
+    {
+      "id": "PROJECT-KEYSTONE-DEMO",
+      "action": "generate"
+    },
+    {
+      "id": "FEAT-REG",
+      "action": "generate"
+    },
+    {
+      "id": "REQ-REG-001",
+      "action": "generate"
+    },
+    {
+      "id": "FEAT-SEARCH",
+      "action": "generate"
+    },
+    {
+      "id": "REQ-SEARCH-001",
+      "action": "generate"
+    },
+    {
+      "id": "REQ-SEARCH-002",
+      "action": "generate"
+    },
+    {
+      "id": "REQ-SEARCH-003",
+      "action": "generate"
+    },
+    {
+      "id": "FEAT-USER",
+      "action": "generate"
+    },
+    {
+      "id": "REQ-USER-001",
+      "action": "generate"
+    },
+    {
+      "id": "REQ-USER-002",
+      "action": "generate"
+    }
+  ]
+}

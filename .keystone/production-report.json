@@ -1,0 +1,21 @@
+{
+  "run_id": "run-2026-06-05-120340",
+  "generated_files": [
+    {
+      "path": "src/generated/infra/schemas/health.schema.ts",
+      "owner_spec_id": "REQ-HEALTH-001",
+      "type": "implementation"
+    },
+    {
+      "path": "src/generated/infra/services/health.service.ts",
+      "owner_spec_id": "REQ-HEALTH-001",
+      "type": "implementation"
+    },
+    {
+      "path": "tests/generated/infra/health.spec.ts",
+      "owner_spec_id": "REQ-HEALTH-001",
+      "type": "test"
+    }
+  ],
+  "verdict": "pass"
+}
