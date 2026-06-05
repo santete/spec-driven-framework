@@ -80,6 +80,47 @@ After generating SDDs, append your token usage to `.keystone/token-cost.json`:
 If the file exists, merge your S5 entry. If not, create it.
 Budget: ≤ 500k total tokens, ≤ $2 per run (NFR-COST-01/02).
 
+## Observability Requirements (MANDATORY in every SDD)
+
+Every SDD MUST include an **Observability** section describing:
+
+### 1. Structured Logging
+- Log format: JSON with fields `timestamp`, `level`, `service`, `trace_id`, `span_id`, `message`, `data`
+- Log levels: `debug` (dev only), `info` (business events), `warn` (recoverable), `error` (unrecoverable)
+- Every business action logs: `{ action: "<verb>", entity: "<id>", actor: "<user_id>", result: "success|failure", duration_ms: <N> }`
+- Sensitive fields (password, token, PII) MUST be redacted: `[REDACTED]`
+
+### 2. Distributed Tracing (OpenTelemetry)
+- Every inbound HTTP request starts a trace span
+- Propagate `traceparent` header (W3C Trace Context)
+- Every outbound call (DB, HTTP, queue) creates a child span
+- Span attributes: `service.name`, `http.method`, `http.route`, `http.status_code`, `db.system`, `db.operation`
+
+### 3. Metrics
+- RED metrics per endpoint: **R**ate (req/s), **E**rror rate (%), **D**uration (p50/p95/p99)
+- Business metrics: domain-specific counters (e.g., `auth.login.success`, `auth.login.locked`)
+- Resource metrics: DB connection pool, memory, event loop lag
+
+### 4. Health & Readiness
+- `GET /health` — liveness (is process running?)
+- `GET /ready` — readiness (can serve traffic? DB connected?)
+- Include in SDD components: HealthService with dependency checks
+
+### 5. Error Tracking
+- Unhandled exceptions → structured error log + optional Sentry/equivalent
+- Error correlation via `trace_id` — link log → trace → error report
+- RFC 7807 error responses include `trace_id` for debugging
+
+### Stack-specific patterns
+
+| Stack | Logging | Tracing | Metrics |
+|-------|---------|---------|---------|
+| TypeScript | pino | @opentelemetry/sdk-node | prom-client |
+| Python | structlog | opentelemetry-sdk | prometheus_client |
+| .NET | Serilog | OpenTelemetry.NET | prometheus-net |
+| Go | slog (stdlib) | go.opentelemetry.io/otel | prometheus/client_golang |
+| Java | SLF4J + Logback | OpenTelemetry Java agent | Micrometer |
+
 ## Anti-patterns
 
 - Do NOT generate implementation code (that's the implementer's job)

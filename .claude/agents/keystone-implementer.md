@@ -71,6 +71,133 @@ src/generated/
 7. Code MUST be self-contained (no imports from files you didn't generate)
 8. Read the acceptance criteria — each AC maps to a specific behavior to implement
 
+## Observability Standards (MANDATORY in generated code)
+
+Every generated service/route/handler MUST include these patterns:
+
+### 1. Structured Logging
+
+Every generated service file includes a logger:
+
+**TypeScript (pino):**
+```typescript
+import { logger } from "../lib/logger.js"; // framework provides
+
+export function verifyLogin(email: string, ...): LoginResult {
+  const log = logger.child({ action: "auth.login", actor: email });
+  log.info({ entity: "session" }, "login attempt");
+  
+  // ... business logic ...
+  
+  if (!result.success) {
+    log.warn({ error: result.error, status: result.status_code }, "login failed");
+  } else {
+    log.info({ token_id: result.token?.slice(0, 8) }, "login success");
+  }
+  return result;
+}
+```
+
+**Python (structlog):**
+```python
+import structlog
+log = structlog.get_logger()
+
+def verify_login(email: str, ...):
+    log.info("login_attempt", action="auth.login", actor=email)
+    # ...
+    log.warning("login_failed", error=result.error) if not result.success else log.info("login_success")
+```
+
+**Rules:**
+- NEVER log passwords, tokens, PII in plain text
+- ALWAYS include `action`, `entity`, `result` in business logs
+- Use `log.child({ trace_id })` or bound context for correlation
+- Log at function entry (info) and exit (info on success, warn on failure)
+
+### 2. Distributed Tracing
+
+Every generated route handler wraps business logic in a span:
+
+**TypeScript:**
+```typescript
+import { trace } from "@opentelemetry/api";
+const tracer = trace.getTracer("auth-service");
+
+app.post("/auth/login", async (req, reply) => {
+  return tracer.startActiveSpan("auth.login", async (span) => {
+    try {
+      span.setAttribute("http.route", "/auth/login");
+      span.setAttribute("user.email", req.body.email);
+      const result = verifyLogin(req.body.email, req.body.password, ...);
+      span.setAttribute("http.status_code", result.status_code);
+      span.setStatus({ code: result.success ? SpanStatusCode.OK : SpanStatusCode.ERROR });
+      return reply.status(result.status_code).send(result);
+    } catch (err) {
+      span.recordException(err);
+      throw err;
+    } finally {
+      span.end();
+    }
+  });
+});
+```
+
+**Rules:**
+- Every HTTP handler → 1 span
+- Every DB query → child span with `db.system`, `db.operation`, `db.statement` (parameterized, no values)
+- Every external HTTP call → child span with `http.url`, `http.method`
+- Propagate `traceparent` header on outbound calls
+
+### 3. Metrics
+
+Every generated service exports counters/histograms:
+
+```typescript
+import { Counter, Histogram } from "prom-client";
+
+const loginAttempts = new Counter({ name: "auth_login_attempts_total", help: "Total login attempts", labelNames: ["result"] });
+const loginDuration = new Histogram({ name: "auth_login_duration_seconds", help: "Login duration", buckets: [0.01, 0.05, 0.1, 0.3, 1] });
+
+export function verifyLogin(...) {
+  const end = loginDuration.startTimer();
+  // ... business logic ...
+  loginAttempts.inc({ result: result.success ? "success" : result.error });
+  end();
+  return result;
+}
+```
+
+**Rules:**
+- Counter for business events: `<domain>_<action>_total` with `result` label
+- Histogram for durations: `<domain>_<action>_duration_seconds`
+- Gauge for resource state: `<domain>_<resource>_current`
+
+### 4. Error Responses with Trace ID
+
+Every error response includes `trace_id` for debugging:
+
+```typescript
+// RFC 7807 + trace_id
+{
+  type: "https://api.example.com/errors/account-locked",
+  title: "Account Locked",
+  status: 429,
+  detail: "Account locked after 5 failed attempts",
+  trace_id: span.spanContext().traceId   // ← for support debugging
+}
+```
+
+### 5. Generated lib/ scaffolding
+
+When generating the FIRST service for a domain, also generate:
+
+- `src/generated/<domain>/lib/logger.ts` — pino logger with JSON format + redaction
+- `src/generated/<domain>/lib/tracer.ts` — OpenTelemetry setup (OTLP exporter)
+- `src/generated/<domain>/lib/metrics.ts` — Prometheus registry + default metrics
+
+These are shared within the domain, not per-spec-ID.
+
 ## Token cost tracking
 
 After generating code, update `.keystone/token-cost.json` with your S6 usage:

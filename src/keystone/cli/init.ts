@@ -24,6 +24,7 @@ export interface StackProfile {
   test: string;
   validation: string;
   package_manager: string;
+  observability: { logging: string; tracing: string; metrics: string };
 }
 
 export const STACK_CATALOG: StackProfile[] = [
@@ -33,6 +34,7 @@ export const STACK_CATALOG: StackProfile[] = [
     language: "typescript", runtime: "node22",
     http: "fastify", orm: "drizzle", db: { dev: "sqlite", prod: "postgres" },
     test: "vitest", validation: "zod", package_manager: "npm",
+    observability: { logging: "pino", tracing: "@opentelemetry/sdk-node", metrics: "prom-client" },
   },
   {
     id: "web-service-python-fastapi",
@@ -40,6 +42,7 @@ export const STACK_CATALOG: StackProfile[] = [
     language: "python", runtime: "python3.12",
     http: "fastapi", orm: "sqlalchemy", db: { dev: "sqlite", prod: "postgres" },
     test: "pytest", validation: "pydantic", package_manager: "pip",
+    observability: { logging: "structlog", tracing: "opentelemetry-sdk", metrics: "prometheus_client" },
   },
   {
     id: "web-service-dotnet-minimal",
@@ -47,6 +50,7 @@ export const STACK_CATALOG: StackProfile[] = [
     language: "csharp", runtime: "dotnet8",
     http: "aspnet-minimal", orm: "ef-core", db: { dev: "sqlite", prod: "sqlserver" },
     test: "xunit", validation: "fluentvalidation", package_manager: "dotnet",
+    observability: { logging: "serilog", tracing: "OpenTelemetry.NET", metrics: "prometheus-net" },
   },
   {
     id: "web-service-go-chi",
@@ -54,6 +58,7 @@ export const STACK_CATALOG: StackProfile[] = [
     language: "go", runtime: "go1.22",
     http: "chi", orm: "sqlc", db: { dev: "sqlite", prod: "postgres" },
     test: "go-test", validation: "validator", package_manager: "go-mod",
+    observability: { logging: "slog", tracing: "go.opentelemetry.io/otel", metrics: "prometheus/client_golang" },
   },
   {
     id: "web-service-java-spring",
@@ -61,6 +66,7 @@ export const STACK_CATALOG: StackProfile[] = [
     language: "java", runtime: "java21",
     http: "spring-boot", orm: "jpa", db: { dev: "h2", prod: "postgres" },
     test: "junit5", validation: "jakarta-validation", package_manager: "maven",
+    observability: { logging: "slf4j+logback", tracing: "opentelemetry-javaagent", metrics: "micrometer" },
   },
 ];
 
@@ -95,6 +101,12 @@ export function generateProjectArtifact(opts: {
       module_layout: "feature-folder",
       test_layout: "alongside",
       error_format: "rfc7807",
+    },
+    observability: {
+      logging: { format: "json", redact: ["password", "token", "secret", "authorization"] },
+      tracing: { protocol: "otlp", propagation: "w3c-tracecontext" },
+      metrics: { format: "prometheus", endpoint: "/metrics" },
+      health: { liveness: "/health", readiness: "/ready" },
     },
     rework: {
       k_global: 5,
