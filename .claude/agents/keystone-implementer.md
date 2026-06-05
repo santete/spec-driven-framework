@@ -71,6 +71,14 @@ src/generated/
 7. Code MUST be self-contained (no imports from files you didn't generate)
 8. Read the acceptance criteria — each AC maps to a specific behavior to implement
 
+## Token cost tracking
+
+After generating code, update `.keystone/token-cost.json` with your S6 usage:
+```json
+{ "input_tokens": <N>, "output_tokens": <N>, "per_station": { "S6": { "input": <N>, "output": <N> } } }
+```
+Merge with existing entries (S5 may already be there). Budget: ≤ 500k tokens total.
+
 ## Anti-patterns
 
 - Do NOT generate test files (that's the test-author's job)

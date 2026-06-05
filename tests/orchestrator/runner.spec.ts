@@ -9,16 +9,18 @@ const ROOT = process.cwd();
 
 describe("orchestrator runner", () => {
   it("runTick on S0 executes intake-qc against real specs and advances", () => {
-    const r = createRun({ input: { title: "smoke" } });
-    const after = runTick(r, { repoRoot: ROOT });
-    expect(after.history).toHaveLength(1);
-    expect(after.history[0].station).toBe("S0");
-    expect(after.history[0].verdict).toBe("pass");
-    expect(after.current_station).toBe("S1");
-    expect(after.last_report_path).toBe(".keystone/intake-report.json");
-    // Clean up S0 report
-    const reportPath = resolve(ROOT, ".keystone", "intake-report.json");
-    if (existsSync(reportPath)) rmSync(reportPath);
+    const fixture = makeRepoFixture();
+    try {
+      const r = createRun({ input: { title: "smoke" } });
+      const after = runTick(r, { repoRoot: fixture });
+      expect(after.history).toHaveLength(1);
+      expect(after.history[0].station).toBe("S0");
+      expect(after.history[0].verdict).toBe("pass");
+      expect(after.current_station).toBe("S1");
+      expect(after.last_report_path).toBe(".keystone/intake-report.json");
+    } finally {
+      tearDownFixture(fixture);
+    }
   });
 
   it("runUntilHalt walks S0 → done in fixture (all stations pass)", () => {

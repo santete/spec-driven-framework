@@ -71,6 +71,15 @@ After frontmatter, include:
 7. `customer_approval.approval_run_id` MUST match the current run ID from impact report
 8. Write files to `specs/sdd/` directory
 
+## Token cost tracking
+
+After generating SDDs, append your token usage to `.keystone/token-cost.json`:
+```json
+{ "input_tokens": <N>, "output_tokens": <N>, "per_station": { "S5": { "input": <N>, "output": <N> } } }
+```
+If the file exists, merge your S5 entry. If not, create it.
+Budget: ≤ 500k total tokens, ≤ $2 per run (NFR-COST-01/02).
+
 ## Anti-patterns
 
 - Do NOT generate implementation code (that's the implementer's job)

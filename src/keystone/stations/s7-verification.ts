@@ -149,14 +149,56 @@ function checkG7(repoRoot: string): GateResult {
 }
 
 // ── G8: Cost budget ───────────────────────────────────────────────
+// NFR-COST-01: ≤ 500k tokens/run, NFR-COST-02: ≤ $2/run
 
-function checkG8(): GateResult {
-  // Phase 0: no LLM calls, so cost = 0. Auto-pass.
-  return {
-    gate_id: "G8",
-    status: "pass",
-    message: "Token cost: 0 (no LLM calls in Phase 0). Budget OK.",
-  };
+const TOKEN_BUDGET = 500_000;
+const USD_BUDGET = 2.0;
+// Rough pricing: ~$3/M input, ~$15/M output (Claude Sonnet)
+const USD_PER_INPUT_TOKEN = 3 / 1_000_000;
+const USD_PER_OUTPUT_TOKEN = 15 / 1_000_000;
+
+interface TokenCost {
+  input_tokens: number;
+  output_tokens: number;
+  per_station?: Record<string, { input: number; output: number }>;
+}
+
+function checkG8(repoRoot: string): GateResult {
+  const costPath = resolve(repoRoot, ".keystone", "token-cost.json");
+
+  if (!existsSync(costPath)) {
+    // No cost file = no LLM calls (bootstrap mode or Phase 0)
+    return { gate_id: "G8", status: "pass", message: "G8: No token-cost.json — 0 tokens (bootstrap/test mode)." };
+  }
+
+  try {
+    const cost: TokenCost = JSON.parse(readFileSync(costPath, "utf8"));
+    const totalTokens = cost.input_tokens + cost.output_tokens;
+    const totalUsd = cost.input_tokens * USD_PER_INPUT_TOKEN + cost.output_tokens * USD_PER_OUTPUT_TOKEN;
+
+    if (totalTokens > TOKEN_BUDGET) {
+      return {
+        gate_id: "G8",
+        status: "fail",
+        message: `G8: Token budget exceeded: ${totalTokens} > ${TOKEN_BUDGET} (NFR-COST-01).`,
+      };
+    }
+    if (totalUsd > USD_BUDGET) {
+      return {
+        gate_id: "G8",
+        status: "fail",
+        message: `G8: USD budget exceeded: $${totalUsd.toFixed(2)} > $${USD_BUDGET} (NFR-COST-02).`,
+      };
+    }
+
+    return {
+      gate_id: "G8",
+      status: "pass",
+      message: `G8: ${totalTokens} tokens (~$${totalUsd.toFixed(2)}). Budget OK.`,
+    };
+  } catch {
+    return { gate_id: "G8", status: "pass", message: "G8: token-cost.json unreadable — skipping." };
+  }
 }
 
 // ── Handler ───────────────────────────────────────────────────────
@@ -166,7 +208,7 @@ export function s7Handler(ctx: StationContext): StationOutcomeDraft {
     checkG5(ctx.repoRoot),
     checkG6(ctx.repoRoot),
     checkG7(ctx.repoRoot),
-    checkG8(),
+    checkG8(ctx.repoRoot),
   ];
 
   const outDir = resolve(ctx.repoRoot, ".keystone");
