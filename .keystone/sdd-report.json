@@ -1,38 +1,5 @@
 {
-  "run_id": "run-2026-06-05-092829",
-  "sdds": [
-    {
-      "id": "SDD-COMP-FEAT-AUTH",
-      "spec_ids_covered": [
-        "FEAT-AUTH",
-        "FEAT-REG",
-        "FEAT-USER",
-        "REQ-AUTH-001",
-        "REQ-AUTH-002",
-        "REQ-AUTH-003",
-        "REQ-REG-001",
-        "REQ-USER-001",
-        "REQ-USER-002"
-      ],
-      "file_path": "specs/sdd/SDD-COMP-FEAT-AUTH.md",
-      "status": "approved"
-    },
-    {
-      "id": "SDD-DATA-ENT-SESSION",
-      "spec_ids_covered": [
-        "ENT-SESSION"
-      ],
-      "file_path": "specs/sdd/SDD-DATA-ENT-SESSION.md",
-      "status": "approved"
-    },
-    {
-      "id": "SDD-DATA-ENT-USER",
-      "spec_ids_covered": [
-        "ENT-USER"
-      ],
-      "file_path": "specs/sdd/SDD-DATA-ENT-USER.md",
-      "status": "approved"
-    }
-  ],
+  "run_id": "run-2026-06-05-092836",
+  "sdds": [],
   "verdict": "pass"
 }

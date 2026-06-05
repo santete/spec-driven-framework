@@ -1,10 +1,10 @@
 {
-  "run_id": "run-2026-06-05-092829",
+  "run_id": "run-2026-06-05-092836",
   "gates": [
     {
       "gate_id": "G5",
       "status": "pass",
-      "message": "All generated tests passed."
+      "message": "No generated tests to run."
     },
     {
       "gate_id": "G6",
