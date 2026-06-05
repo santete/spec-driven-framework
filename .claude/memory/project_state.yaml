@@ -15,13 +15,21 @@ stack: "TypeScript 5.x + Node.js 22 + Vitest + Ajv"
 description: "Governed spec-driven production framework on Claude Code — 9-station pipeline (S0-S8) with intake QC, spec linting, and orchestrator"
 
 # ── Sprint / current state ─────────────────────────────────────────
-current_sprint: ""
-last_successful_task: ""
-session_count: 0
+current_sprint: "Phase 1 — Feasibility"
+last_successful_task: "Phase 1 M4 — S7 G8 cost tracking"
+session_count: 1
 consecutive_failures: 0
 
 # ── Completed tasks (append, archive sau 2 sprints) ────────────────
-completed_tasks: []
+completed_tasks:
+  - date: "2026-06-05"
+    task: "Phase 0 M4 — wire S1-S8 real handlers + E2E pipeline"
+    files_modified: [src/keystone/stations/, src/keystone/orchestrator/stations.ts, tests/stations/]
+    pattern_phase: 5
+  - date: "2026-06-05"
+    task: "Phase 1 M1-M4 — validate-only S5/S6, subagent prompts, semantic diff, G8 cost"
+    files_modified: [src/keystone/stations/s5-sdd-design.ts, src/keystone/stations/s6-production.ts, src/keystone/stations/s4-impact.ts, src/keystone/stations/s7-verification.ts, .claude/agents/]
+    pattern_phase: 5
 # - date: "2026-04-01"
 #   task: "Implemented StripeService"
 #   files_modified: [src/payment/stripe.py, tests/test_stripe.py]
