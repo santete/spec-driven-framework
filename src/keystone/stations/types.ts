@@ -150,3 +150,16 @@ export interface DeliveryReport {
   gates_checked: string[];
   verdict: "pass" | "reject";
 }
+
+// ── Run History (M2 metric tracking) ─────────────────────────────
+
+export interface RunHistoryEntry {
+  run_id: string;
+  spec_change_id: string;
+  timestamp: string;
+  classification: ChangeClassification;
+  verdict: "pass" | "reject";
+  commit_sha: string | null;
+  stations_passed: number;
+  rework_count: number;
+}

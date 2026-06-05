@@ -14,6 +14,7 @@ import type {
   ImpactReport,
   VerificationReport,
   ChangeClassification,
+  RunHistoryEntry,
 } from "./types.js";
 
 interface ReportCheck {
@@ -78,6 +79,11 @@ export function s8Handler(ctx: StationContext): StationOutcomeDraft {
       JSON.stringify(report, null, 2) + "\n",
       "utf8",
     );
+    appendRunHistory(ctx.repoRoot, {
+      run_id: ctx.runId, spec_change_id: ctx.specChangeId,
+      timestamp: new Date().toISOString(), classification,
+      verdict: "reject", commit_sha: null, stations_passed: 0, rework_count: 0,
+    });
     return {
       verdict: "reject",
       message: `S8: Pre-commit failed — ${issues[0]}`,
@@ -186,6 +192,18 @@ export function s8Handler(ctx: StationContext): StationOutcomeDraft {
     "utf8",
   );
 
+  // Append to run history (M2 metric tracking)
+  appendRunHistory(ctx.repoRoot, {
+    run_id: ctx.runId,
+    spec_change_id: ctx.specChangeId,
+    timestamp: new Date().toISOString(),
+    classification,
+    verdict: "pass",
+    commit_sha: commitSha,
+    stations_passed: gatesChecked.length,
+    rework_count: 0,
+  });
+
   return {
     verdict: "pass",
     message: commitSha
@@ -193,4 +211,33 @@ export function s8Handler(ctx: StationContext): StationOutcomeDraft {
       : `S8: Delivery complete (no git repo — commit skipped). G0-G9 pass.`,
     report_path: ".keystone/delivery-report.json",
   };
+}
+
+// ── Run history (M2 metric) ───────────────────────────────────────
+
+function appendRunHistory(repoRoot: string, entry: RunHistoryEntry): void {
+  const historyPath = resolve(repoRoot, ".keystone", "run-history.json");
+  let history: RunHistoryEntry[] = [];
+  if (existsSync(historyPath)) {
+    try { history = JSON.parse(readFileSync(historyPath, "utf8")); } catch { /* reset */ }
+  }
+  history.push(entry);
+  // Keep last 100 entries
+  if (history.length > 100) history = history.slice(-100);
+  mkdirSync(resolve(repoRoot, ".keystone"), { recursive: true });
+  writeFileSync(historyPath, JSON.stringify(history, null, 2) + "\n", "utf8");
+}
+
+/** Compute M2 = auto-commit success rate from run history */
+export function computeM2(repoRoot: string): { total: number; passed: number; rate: number } {
+  const historyPath = resolve(repoRoot, ".keystone", "run-history.json");
+  if (!existsSync(historyPath)) return { total: 0, passed: 0, rate: 0 };
+  try {
+    const history: RunHistoryEntry[] = JSON.parse(readFileSync(historyPath, "utf8"));
+    const total = history.length;
+    const passed = history.filter((e) => e.verdict === "pass").length;
+    return { total, passed, rate: total > 0 ? passed / total : 0 };
+  } catch {
+    return { total: 0, passed: 0, rate: 0 };
+  }
 }
