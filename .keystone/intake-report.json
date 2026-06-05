@@ -1,6 +1,6 @@
 {
   "$schema": ".keystone/intake-report-schema.json",
-  "run_id": "run-2026-06-05-092903",
+  "run_id": "run-2026-06-05-092907",
   "verdict": "pass",
   "summary": "Tất cả 13 spec đạt S0 intake QC.",
   "total_items": 0,
