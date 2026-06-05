@@ -1,13 +1,23 @@
 {
-  "run_id": "run-2026-06-05-090859",
+  "run_id": "run-2026-06-05-092829",
   "generated_files": [
     {
-      "path": "src/generated/auth/entities/user.schema.ts",
+      "path": "src/generated/auth/entities/ent_session.schema.ts",
+      "owner_spec_id": "ENT-SESSION",
+      "type": "implementation"
+    },
+    {
+      "path": "src/generated/auth/entities/ent_session.validator.ts",
+      "owner_spec_id": "ENT-SESSION",
+      "type": "implementation"
+    },
+    {
+      "path": "src/generated/auth/entities/ent_user.schema.ts",
       "owner_spec_id": "ENT-USER",
       "type": "implementation"
     },
     {
-      "path": "src/generated/auth/entities/user.validator.ts",
+      "path": "src/generated/auth/entities/ent_user.validator.ts",
       "owner_spec_id": "ENT-USER",
       "type": "implementation"
     },
@@ -19,6 +29,56 @@
     {
       "path": "tests/generated/auth/auth.spec.ts",
       "owner_spec_id": "REQ-AUTH-001",
+      "type": "test"
+    },
+    {
+      "path": "src/generated/auth/services/auth.service.ts",
+      "owner_spec_id": "REQ-AUTH-002",
+      "type": "implementation"
+    },
+    {
+      "path": "tests/generated/auth/auth.spec.ts",
+      "owner_spec_id": "REQ-AUTH-002",
+      "type": "test"
+    },
+    {
+      "path": "src/generated/auth/services/auth.service.ts",
+      "owner_spec_id": "REQ-AUTH-003",
+      "type": "implementation"
+    },
+    {
+      "path": "tests/generated/auth/auth.spec.ts",
+      "owner_spec_id": "REQ-AUTH-003",
+      "type": "test"
+    },
+    {
+      "path": "src/generated/auth/services/auth.service.ts",
+      "owner_spec_id": "REQ-REG-001",
+      "type": "implementation"
+    },
+    {
+      "path": "tests/generated/auth/auth.spec.ts",
+      "owner_spec_id": "REQ-REG-001",
+      "type": "test"
+    },
+    {
+      "path": "src/generated/auth/services/auth.service.ts",
+      "owner_spec_id": "REQ-USER-001",
+      "type": "implementation"
+    },
+    {
+      "path": "tests/generated/auth/auth.spec.ts",
+      "owner_spec_id": "REQ-USER-001",
+      "type": "test"
+    },
+    {
+      "path": "src/generated/auth/services/auth.service.ts",
+      "owner_spec_id": "REQ-USER-002",
+      "type": "implementation"
+    },
+    {
+      "path": "tests/generated/auth/auth.spec.ts",
+      "owner_spec_id": "REQ-USER-002",
       "type": "test"
     }
   ],

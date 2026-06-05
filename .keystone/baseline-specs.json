@@ -1,12 +1,68 @@
 {
   "version": 1,
   "hashes": {
+    "ENT-SESSION": "c9a9fd5418cb9c9e",
     "ENT-USER": "0d15f439112d071c",
     "FEAT-AUTH": "a23149ef03f1113e",
+    "NFR-AUTH-001": "affb87ec5b14b36a",
     "REQ-AUTH-001": "2c316a039cbbb7fd",
-    "PROJECT-KEYSTONE-DEMO": "618584a94787e5a3"
+    "REQ-AUTH-002": "9c201cc36e3af91b",
+    "REQ-AUTH-003": "0773cf26b9ad82c1",
+    "PROJECT-KEYSTONE-DEMO": "618584a94787e5a3",
+    "FEAT-REG": "d0e4c2f9d41b123f",
+    "REQ-REG-001": "d398f904fa418986",
+    "FEAT-USER": "4c6c757b0ab35d42",
+    "REQ-USER-001": "0150984cf3ba0620",
+    "REQ-USER-002": "209816f27d466b96"
   },
   "frontmatter": {
+    "ENT-SESSION": {
+      "id": "ENT-SESSION",
+      "type": "entity",
+      "title": "Session",
+      "version": "1.0.0",
+      "status": "approved",
+      "relations": {
+        "depends_on": [
+          "ENT-USER"
+        ]
+      },
+      "fields": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "required": true,
+          "pk": true
+        },
+        {
+          "name": "user_id",
+          "type": "uuid",
+          "required": true
+        },
+        {
+          "name": "token_hash",
+          "type": "string",
+          "required": true,
+          "unique": true
+        },
+        {
+          "name": "expires_at",
+          "type": "timestamp",
+          "required": true
+        },
+        {
+          "name": "revoked",
+          "type": "boolean",
+          "required": true,
+          "default": false
+        }
+      ],
+      "invariants": [
+        "token_hash là duy nhất toàn hệ thống",
+        "expires_at phải trong tương lai khi tạo",
+        "revoked=true không thể chuyển về false"
+      ]
+    },
     "ENT-USER": {
       "id": "ENT-USER",
       "type": "entity",
@@ -84,6 +140,18 @@
         ]
       }
     },
+    "NFR-AUTH-001": {
+      "id": "NFR-AUTH-001",
+      "type": "nfr",
+      "title": "Độ trễ login API",
+      "version": "1.0.0",
+      "status": "approved",
+      "budget": {
+        "metric": "p95_latency_ms",
+        "threshold": 300,
+        "measured_by": "APM monitoring"
+      }
+    },
     "REQ-AUTH-001": {
       "id": "REQ-AUTH-001",
       "type": "requirement",
@@ -118,6 +186,60 @@
           "given": "user nhập sai mật khẩu 5 lần",
           "when": "submit lần thứ 6",
           "then": "khóa tài khoản tạm thời, status 429"
+        }
+      ]
+    },
+    "REQ-AUTH-002": {
+      "id": "REQ-AUTH-002",
+      "type": "requirement",
+      "title": "Đăng xuất và thu hồi token",
+      "version": "1.0.0",
+      "status": "approved",
+      "priority": "must",
+      "relations": {
+        "refines": [
+          "FEAT-AUTH"
+        ],
+        "depends_on": [
+          "ENT-USER"
+        ]
+      },
+      "acceptance_criteria": [
+        {
+          "id": "AC-AUTH-002-01",
+          "given": "user đã đăng nhập với session token hợp lệ",
+          "when": "gọi POST /auth/logout",
+          "then": "thu hồi token, trả về status 200"
+        },
+        {
+          "id": "AC-AUTH-002-02",
+          "given": "user gọi API với token đã bị thu hồi",
+          "when": "gửi request bất kỳ",
+          "then": "trả về status 401 Unauthorized"
+        }
+      ]
+    },
+    "REQ-AUTH-003": {
+      "id": "REQ-AUTH-003",
+      "type": "requirement",
+      "title": "Refresh token",
+      "version": "1.0.0",
+      "status": "approved",
+      "priority": "should",
+      "relations": {
+        "refines": [
+          "FEAT-AUTH"
+        ],
+        "depends_on": [
+          "ENT-SESSION"
+        ]
+      },
+      "acceptance_criteria": [
+        {
+          "id": "AC-AUTH-003-01",
+          "given": "user có refresh token hợp lệ",
+          "when": "gọi POST /auth/refresh",
+          "then": "trả về access token mới, status 200"
         }
       ]
     },
@@ -180,6 +302,108 @@
         "on_global_exceeded": "incident",
         "rework_token_budget_pct": 30
       }
+    },
+    "FEAT-REG": {
+      "id": "FEAT-REG",
+      "type": "feature",
+      "title": "Đăng ký tài khoản mới",
+      "version": "1.0.0",
+      "status": "approved",
+      "relations": {
+        "depends_on": [
+          "ENT-USER"
+        ]
+      }
+    },
+    "REQ-REG-001": {
+      "id": "REQ-REG-001",
+      "type": "requirement",
+      "title": "Đăng ký bằng email",
+      "version": "1.0.0",
+      "status": "approved",
+      "priority": "must",
+      "relations": {
+        "refines": [
+          "FEAT-REG"
+        ],
+        "depends_on": [
+          "ENT-USER"
+        ]
+      },
+      "acceptance_criteria": [
+        {
+          "id": "AC-REG-001-01",
+          "given": "email chưa tồn tại trong hệ thống",
+          "when": "gọi POST /auth/register với email + password",
+          "then": "tạo user mới, trả về user info, status 201"
+        },
+        {
+          "id": "AC-REG-001-02",
+          "given": "email đã tồn tại",
+          "when": "gọi POST /auth/register với email trùng",
+          "then": "trả về lỗi, status 409 Conflict"
+        }
+      ]
+    },
+    "FEAT-USER": {
+      "id": "FEAT-USER",
+      "type": "feature",
+      "title": "Quản lý hồ sơ người dùng",
+      "version": "1.0.0",
+      "status": "approved",
+      "relations": {
+        "depends_on": [
+          "ENT-USER"
+        ]
+      }
+    },
+    "REQ-USER-001": {
+      "id": "REQ-USER-001",
+      "type": "requirement",
+      "title": "Xem hồ sơ cá nhân",
+      "version": "1.0.0",
+      "status": "approved",
+      "priority": "must",
+      "relations": {
+        "refines": [
+          "FEAT-USER"
+        ],
+        "depends_on": [
+          "ENT-USER"
+        ]
+      },
+      "acceptance_criteria": [
+        {
+          "id": "AC-USER-001-01",
+          "given": "user đã đăng nhập",
+          "when": "gọi GET /users/me",
+          "then": "trả về thông tin user (id, email, status), status 200"
+        }
+      ]
+    },
+    "REQ-USER-002": {
+      "id": "REQ-USER-002",
+      "type": "requirement",
+      "title": "Cập nhật hồ sơ",
+      "version": "1.0.0",
+      "status": "approved",
+      "priority": "should",
+      "relations": {
+        "refines": [
+          "FEAT-USER"
+        ],
+        "depends_on": [
+          "ENT-USER"
+        ]
+      },
+      "acceptance_criteria": [
+        {
+          "id": "AC-USER-002-01",
+          "given": "user đã đăng nhập",
+          "when": "gọi PATCH /users/me với display_name mới",
+          "then": "cập nhật thành công, trả về user updated, status 200"
+        }
+      ]
     }
   }
 }

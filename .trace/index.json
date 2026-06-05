@@ -2,16 +2,28 @@
   "version": 1,
   "entries": [
     {
+      "spec_id": "ENT-SESSION",
+      "spec_path": "specs/auth/ENT-SESSION.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "c9a9fd5418cb9c9e",
+      "implementations": [
+        "src/generated/auth/entities/ent_session.schema.ts",
+        "src/generated/auth/entities/ent_session.validator.ts"
+      ],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-092829"
+    },
+    {
       "spec_id": "ENT-USER",
       "spec_path": "specs/auth/ENT-USER.md",
       "spec_version": "2.0.0",
       "spec_content_hash": "0d15f439112d071c",
       "implementations": [
-        "src/generated/auth/entities/user.schema.ts",
-        "src/generated/auth/entities/user.validator.ts"
+        "src/generated/auth/entities/ent_user.schema.ts",
+        "src/generated/auth/entities/ent_user.validator.ts"
       ],
       "tests": [],
-      "last_run_id": "run-2026-06-05-090859"
+      "last_run_id": "run-2026-06-05-092829"
     },
     {
       "spec_id": "FEAT-AUTH",
@@ -20,7 +32,16 @@
       "spec_content_hash": "a23149ef03f1113e",
       "implementations": [],
       "tests": [],
-      "last_run_id": "run-2026-06-05-090859"
+      "last_run_id": "run-2026-06-05-092829"
+    },
+    {
+      "spec_id": "NFR-AUTH-001",
+      "spec_path": "specs/auth/NFR-AUTH-001.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "affb87ec5b14b36a",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-092829"
     },
     {
       "spec_id": "REQ-AUTH-001",
@@ -33,7 +54,33 @@
       "tests": [
         "tests/generated/auth/auth.spec.ts"
       ],
-      "last_run_id": "run-2026-06-05-090859"
+      "last_run_id": "run-2026-06-05-092829"
+    },
+    {
+      "spec_id": "REQ-AUTH-002",
+      "spec_path": "specs/auth/REQ-AUTH-002.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "9c201cc36e3af91b",
+      "implementations": [
+        "src/generated/auth/services/auth.service.ts"
+      ],
+      "tests": [
+        "tests/generated/auth/auth.spec.ts"
+      ],
+      "last_run_id": "run-2026-06-05-092829"
+    },
+    {
+      "spec_id": "REQ-AUTH-003",
+      "spec_path": "specs/auth/REQ-AUTH-003.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "0773cf26b9ad82c1",
+      "implementations": [
+        "src/generated/auth/services/auth.service.ts"
+      ],
+      "tests": [
+        "tests/generated/auth/auth.spec.ts"
+      ],
+      "last_run_id": "run-2026-06-05-092829"
     },
     {
       "spec_id": "PROJECT-KEYSTONE-DEMO",
@@ -42,7 +89,64 @@
       "spec_content_hash": "618584a94787e5a3",
       "implementations": [],
       "tests": [],
-      "last_run_id": "run-2026-06-05-090859"
+      "last_run_id": "run-2026-06-05-092829"
+    },
+    {
+      "spec_id": "FEAT-REG",
+      "spec_path": "specs/registration/FEAT-REG.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "d0e4c2f9d41b123f",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-092829"
+    },
+    {
+      "spec_id": "REQ-REG-001",
+      "spec_path": "specs/registration/REQ-REG-001.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "d398f904fa418986",
+      "implementations": [
+        "src/generated/auth/services/auth.service.ts"
+      ],
+      "tests": [
+        "tests/generated/auth/auth.spec.ts"
+      ],
+      "last_run_id": "run-2026-06-05-092829"
+    },
+    {
+      "spec_id": "FEAT-USER",
+      "spec_path": "specs/user/FEAT-USER.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "4c6c757b0ab35d42",
+      "implementations": [],
+      "tests": [],
+      "last_run_id": "run-2026-06-05-092829"
+    },
+    {
+      "spec_id": "REQ-USER-001",
+      "spec_path": "specs/user/REQ-USER-001.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "0150984cf3ba0620",
+      "implementations": [
+        "src/generated/auth/services/auth.service.ts"
+      ],
+      "tests": [
+        "tests/generated/auth/auth.spec.ts"
+      ],
+      "last_run_id": "run-2026-06-05-092829"
+    },
+    {
+      "spec_id": "REQ-USER-002",
+      "spec_path": "specs/user/REQ-USER-002.md",
+      "spec_version": "1.0.0",
+      "spec_content_hash": "209816f27d466b96",
+      "implementations": [
+        "src/generated/auth/services/auth.service.ts"
+      ],
+      "tests": [
+        "tests/generated/auth/auth.spec.ts"
+      ],
+      "last_run_id": "run-2026-06-05-092829"
     }
   ]
 }

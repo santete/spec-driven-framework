@@ -1,7 +1,14 @@
 {
-  "run_id": "run-2026-06-05-090859",
+  "run_id": "run-2026-06-05-092829",
   "classification": "additive",
   "changes": [
+    {
+      "id": "ENT-SESSION",
+      "op": "added",
+      "spec_path": "specs/auth/ENT-SESSION.md",
+      "hash": "c9a9fd5418cb9c9e",
+      "change_classification": "additive"
+    },
     {
       "id": "ENT-USER",
       "op": "added",
@@ -17,10 +24,31 @@
       "change_classification": "additive"
     },
     {
+      "id": "NFR-AUTH-001",
+      "op": "added",
+      "spec_path": "specs/auth/NFR-AUTH-001.md",
+      "hash": "affb87ec5b14b36a",
+      "change_classification": "additive"
+    },
+    {
       "id": "REQ-AUTH-001",
       "op": "added",
       "spec_path": "specs/auth/REQ-AUTH-001.md",
       "hash": "2c316a039cbbb7fd",
+      "change_classification": "additive"
+    },
+    {
+      "id": "REQ-AUTH-002",
+      "op": "added",
+      "spec_path": "specs/auth/REQ-AUTH-002.md",
+      "hash": "9c201cc36e3af91b",
+      "change_classification": "additive"
+    },
+    {
+      "id": "REQ-AUTH-003",
+      "op": "added",
+      "spec_path": "specs/auth/REQ-AUTH-003.md",
+      "hash": "0773cf26b9ad82c1",
       "change_classification": "additive"
     },
     {
@@ -29,15 +57,63 @@
       "spec_path": "specs/project.md",
       "hash": "618584a94787e5a3",
       "change_classification": "additive"
+    },
+    {
+      "id": "FEAT-REG",
+      "op": "added",
+      "spec_path": "specs/registration/FEAT-REG.md",
+      "hash": "d0e4c2f9d41b123f",
+      "change_classification": "additive"
+    },
+    {
+      "id": "REQ-REG-001",
+      "op": "added",
+      "spec_path": "specs/registration/REQ-REG-001.md",
+      "hash": "d398f904fa418986",
+      "change_classification": "additive"
+    },
+    {
+      "id": "FEAT-USER",
+      "op": "added",
+      "spec_path": "specs/user/FEAT-USER.md",
+      "hash": "4c6c757b0ab35d42",
+      "change_classification": "additive"
+    },
+    {
+      "id": "REQ-USER-001",
+      "op": "added",
+      "spec_path": "specs/user/REQ-USER-001.md",
+      "hash": "0150984cf3ba0620",
+      "change_classification": "additive"
+    },
+    {
+      "id": "REQ-USER-002",
+      "op": "added",
+      "spec_path": "specs/user/REQ-USER-002.md",
+      "hash": "209816f27d466b96",
+      "change_classification": "additive"
     }
   ],
   "affected_ids": [
+    "ENT-SESSION",
     "ENT-USER",
     "FEAT-AUTH",
+    "NFR-AUTH-001",
     "REQ-AUTH-001",
-    "PROJECT-KEYSTONE-DEMO"
+    "REQ-AUTH-002",
+    "REQ-AUTH-003",
+    "PROJECT-KEYSTONE-DEMO",
+    "FEAT-REG",
+    "REQ-REG-001",
+    "FEAT-USER",
+    "REQ-USER-001",
+    "REQ-USER-002"
   ],
   "required_actions": [
+    {
+      "id": "ENT-SESSION",
+      "action": "generate"
+    },
     {
       "id": "ENT-USER",
       "action": "generate"
@@ -47,11 +123,43 @@
       "action": "generate"
     },
     {
+      "id": "NFR-AUTH-001",
+      "action": "generate"
+    },
+    {
       "id": "REQ-AUTH-001",
       "action": "generate"
     },
     {
+      "id": "REQ-AUTH-002",
+      "action": "generate"
+    },
+    {
+      "id": "REQ-AUTH-003",
+      "action": "generate"
+    },
+    {
       "id": "PROJECT-KEYSTONE-DEMO",
+      "action": "generate"
+    },
+    {
+      "id": "FEAT-REG",
+      "action": "generate"
+    },
+    {
+      "id": "REQ-REG-001",
+      "action": "generate"
+    },
+    {
+      "id": "FEAT-USER",
+      "action": "generate"
+    },
+    {
+      "id": "REQ-USER-001",
+      "action": "generate"
+    },
+    {
+      "id": "REQ-USER-002",
       "action": "generate"
     }
   ]
