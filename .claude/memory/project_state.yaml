@@ -1,73 +1,97 @@
-# Project State — đọc Phase 0, ghi Phase 5
-# Đây là L2 memory: thay đổi sau mỗi session
-# Tham khảo: guides/memory-system.md
-
-# ── Pattern (set bởi /classify, đừng sửa tay) ──────────────────────
-pattern: A                          # A | B | C
-classified_at: "2026-06-05"
-loc_at_classification: 2784
-next_review_threshold: 12000        # /classify lại khi LOC vượt số này
+pattern: A
+classified_at: '2026-06-05'
+loc_at_classification: 5933
+next_review_threshold: 12000
 team_size: 1
-
-# ── Identity ────────────────────────────────────────────────────────
-project_name: "keystone-framework"
-stack: "TypeScript 5.x + Node.js 22 + Vitest + Ajv"
-description: "Governed spec-driven production framework on Claude Code — 9-station pipeline (S0-S8) with intake QC, spec linting, and orchestrator"
-
-# ── Sprint / current state ─────────────────────────────────────────
-current_sprint: "Phase 1 — Feasibility"
-last_successful_task: "Phase 1 M4 — S7 G8 cost tracking"
-session_count: 1
+project_name: keystone-framework
+stack: TypeScript 5.x + Node.js 22 + Vitest + Ajv
+description: >-
+  Governed spec-driven production framework on Claude Code — 9-station pipeline
+  (S0-S8) with BRD intake, multi-stack codegen, observability, and full traceability.
+current_sprint: "PRD complete — all phases 0-4 done"
+last_successful_task: "Observability standards + README update"
+session_count: 2
 consecutive_failures: 0
 
-# ── Completed tasks (append, archive sau 2 sprints) ────────────────
 completed_tasks:
-  - date: "2026-06-05"
-    task: "Phase 0 M4 — wire S1-S8 real handlers + E2E pipeline"
+  - date: '2026-06-05'
+    task: Phase 0 M4 — wire S1-S8 real handlers + E2E pipeline
     files_modified: [src/keystone/stations/, src/keystone/orchestrator/stations.ts, tests/stations/]
     pattern_phase: 5
-  - date: "2026-06-05"
-    task: "Phase 1 M1-M4 — validate-only S5/S6, subagent prompts, semantic diff, G8 cost"
-    files_modified: [src/keystone/stations/s5-sdd-design.ts, src/keystone/stations/s6-production.ts, src/keystone/stations/s4-impact.ts, src/keystone/stations/s7-verification.ts, .claude/agents/]
+  - date: '2026-06-05'
+    task: Phase 1 M1-M5 — validate-only S5/S6, subagent prompts, semantic diff, G8 cost, E2E fixes
+    files_modified: [src/keystone/stations/, .claude/agents/, src/keystone/spec/loader.ts]
     pattern_phase: 5
-# - date: "2026-04-01"
-#   task: "Implemented StripeService"
-#   files_modified: [src/payment/stripe.py, tests/test_stripe.py]
-#   pattern_phase: 5
+  - date: '2026-06-05'
+    task: Phase 1 Live — /spec-change with LLM subagents (REQ-AUTH-001)
+    files_modified: [specs/sdd/, src/generated/, tests/generated/]
+    pattern_phase: 5
+  - date: '2026-06-05'
+    task: Phase 2 — M2 metric tracking + 50 consecutive changes (M2=100%)
+    files_modified: [src/keystone/stations/s8-delivery.ts, specs/order/, specs/admin/, specs/notification/, specs/search/]
+    pattern_phase: 5
+  - date: '2026-06-05'
+    task: Phase 3 — MD→Spec layer (/md2spec)
+    files_modified: [src/keystone/cli/md2spec.ts, .claude/agents/md-to-spec.md, .claude/commands/md2spec.md]
+    pattern_phase: 5
+  - date: '2026-06-05'
+    task: Phase 4 — Multi-stack (Python + S7 pytest detection)
+    files_modified: [src/keystone/stations/s6-production.ts, src/keystone/stations/s7-verification.ts]
+    pattern_phase: 5
+  - date: '2026-06-05'
+    task: "Features: /dashboard, /brd-intake, /init, observability, README"
+    files_modified: [src/keystone/cli/dashboard.ts, src/keystone/cli/brd-intake.ts, src/keystone/cli/init.ts, .claude/agents/, README.md]
+    pattern_phase: 5
 
-# ── Decisions (architectural, không hiển nhiên từ code) ────────────
-decisions: []
-# - date: "2026-04-01"
-#   decision: "Dùng idempotency_key cho webhook dedup"
-#   reason: "Stripe có thể gửi duplicate events"
-#   impact: "Requires column in webhook_events table"
+decisions:
+  - date: '2026-06-05'
+    decision: "No async migration — CLI sync, Claude Code subagents do LLM work"
+    reason: "Avoids 25-file breaking change. blocked→resume pattern sufficient."
+    impact: "S5/S6 return 'blocked' when outputs missing, Claude launches subagents"
+  - date: '2026-06-05'
+    decision: "Bootstrap mode for deterministic testing (VITEST=true)"
+    reason: "Tests need reproducible output. LLM output non-deterministic."
+    impact: "Two code paths in S5/S6: bootstrap (templates) vs validate (LLM outputs)"
+  - date: '2026-06-05'
+    decision: "G7 drift = warn not fail within same run"
+    reason: "Bootstrap templates may overwrite files with different spec versions"
+    impact: "G7 only hard-fails on cross-run drift"
 
-# ── Known gotchas (workaround cho hành vi bất ngờ) ─────────────────
-known_gotchas: []
-# - discovery: "additions/deletions chỉ có ở single MR endpoint"
-#   workaround: "Gọi GET /projects/:id/merge_requests/:iid riêng"
-#   files_affected: [src/extraction/merge_requests.py]
-#   discovered_at: "2026-04-02"
+known_gotchas:
+  - discovery: "S6 generated test import path must be 3 levels (../../../), not 2"
+    workaround: "Fixed in S6 template. LLM subagents instructed in prompt."
+    files_affected: [src/keystone/stations/s6-production.ts]
+    discovered_at: '2026-06-05'
+  - discovery: "S8 commits even in --dry-run mode"
+    workaround: "Thread dryRun flag through CLI → RunnerOptions → StationContext"
+    files_affected: [src/keystone/cli/spec-change.ts, src/keystone/orchestrator/runner.ts, src/keystone/stations/s8-delivery.ts]
+    discovered_at: '2026-06-05'
+  - discovery: "specs/sdd/ and specs/_*/ must be excluded from spec loader"
+    workaround: "SKIP_DIRS + entry.startsWith('_') check in loader.ts"
+    files_affected: [src/keystone/spec/loader.ts]
+    discovered_at: '2026-06-05'
 
-# ── Pending tasks (carry-over giữa session) ────────────────────────
-pending_tasks: []
-# - description: "Implement retry logic cho webhook failures"
-#   priority: medium
-#   blocked_by: ""
+pending_tasks:
+  - description: "AST-based regions (ts-morph) — Phase 2 deferred"
+    priority: low
+    blocked_by: ""
+  - description: "Go/Java/.NET bootstrap templates in S6"
+    priority: medium
+    blocked_by: ""
+  - description: "Brownfield import tool (scan code → generate spec stubs)"
+    priority: low
+    blocked_by: ""
 
-# ── Hallucination history (do `/halluc-score --save` ghi) ──────────
-# Track HRS theo session để spot trend (pattern recurring → fix root cause)
-# Keep last 50 entries (auto-truncate trong halluc-score script)
-hallucination_history: []
-# - date: "2026-04-15"
-#   session: 12
-#   hrs: 0.62
-#   dominant_signal: schema_match
-#   signals:
-#     cite_coverage: 0.6
-#     schema_match: 0.0
-#     confidence_density: 1.2
-#     static_errors: 0
-#     context_drift: 0.81
-#     failures: 1
-#     schema_staleness: 12
+hallucination_history:
+  - date: '2026-06-05'
+    session: 1
+    hrs: 0.15
+    dominant_signal: context_drift
+    signals:
+      cite_coverage: 1.0
+      schema_match: 1.0
+      confidence_density: 0.0
+      static_errors: 0
+      context_drift: 1.0
+      failures: 0
+      schema_staleness: 31
